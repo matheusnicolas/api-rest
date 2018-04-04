@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.User = undefined;
+exports.Turma = exports.User = undefined;
 
 var _sequelize = require('sequelize');
 
@@ -23,10 +23,27 @@ var User = exports.User = sequelize.define('user', {
     cpf: _sequelize2.default.STRING,
     username: _sequelize2.default.STRING,
     password: _sequelize2.default.STRING,
-    id: { type: _sequelize2.default.INTEGER, primaryKey: true },
+    id: { type: _sequelize2.default.INTEGER, primaryKey: true, autoIncrement: true
+    },
     matricula: _sequelize2.default.STRING,
     sexo: _sequelize2.default.STRING,
     email: _sequelize2.default.STRING
 });
 
+var Turma = exports.Turma = sequelize.define('turma', {
+    sigla: _sequelize2.default.STRING,
+    serie: _sequelize2.default.INTEGER,
+    sala: _sequelize2.default.STRING,
+    aluno: _sequelize2.default.STRING,
+    professor: _sequelize2.default.STRING,
+    id: {
+        type: _sequelize2.default.INTEGER, autoIncrement: true, primaryKey: true
+    }
+
+});
+
+//Turma.hasMany(User, {foreignKey: 'aluno', sourceKey: 'id'});
+//User.belongsTo(Turma, {foreignKey: 'aluno', targetKey: 'id'});
+
 User.sync();
+Turma.sync();

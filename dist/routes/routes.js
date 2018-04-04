@@ -18,6 +18,10 @@ var router = _express2.default.Router();
 
 router.route("/user").get(controllers.getUser).post(controllers.cadastrarUser);
 
-router.route("/user/:id").put(controllers.editarUser).delete(controllers.excluirUser);
+router.route("/user/:user_id").get(controllers.getUserById).put(controllers.editarUser).delete(controllers.excluirUser);
+
+router.route("/turma").get(controllers.getTurma).post(controllers.cadastrarTurma);
+
+router.route("/turma/:turma_id").get(controllers.getTurmaById).put(controllers.editarTurma).delete(controllers.excluirTurma);
 
 exports.default = router;

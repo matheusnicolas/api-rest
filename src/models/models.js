@@ -12,10 +12,27 @@ export let User = sequelize.define('user', {
     cpf : Sequelize.STRING,
     username : Sequelize.STRING,
     password : Sequelize.STRING,
-    id : { type: Sequelize.INTEGER, primaryKey: true },
+    id : { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true
+    },
     matricula : Sequelize.STRING,
     sexo : Sequelize.STRING,
     email: Sequelize.STRING
 });
 
+export let Turma = sequelize.define('turma', {
+    sigla: Sequelize.STRING,
+    serie: Sequelize.INTEGER,
+    sala: Sequelize.STRING,
+    aluno: Sequelize.STRING,
+    professor: Sequelize.STRING,
+    id: {
+        type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true
+    }
+
+});
+
+//Turma.hasMany(User, {foreignKey: 'aluno', sourceKey: 'id'});
+//User.belongsTo(Turma, {foreignKey: 'aluno', targetKey: 'id'});
+
 User.sync();
+Turma.sync();
