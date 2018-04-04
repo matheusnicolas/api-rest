@@ -16,6 +16,8 @@ var controllers = require('../controllers/controllers');
 
 var router = _express2.default.Router();
 
-router.route("/user/:id").get(controllers.getUser).post(controllers.cadastrarUser).put(controllers.editarUser);
+router.route("/user").get(controllers.getUser).post(controllers.cadastrarUser);
+
+router.route("/user/:id").put(controllers.editarUser).delete(controllers.excluirUser);
 
 exports.default = router;

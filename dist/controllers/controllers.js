@@ -45,3 +45,15 @@ exports.editarUser = function (req, res) {
         }
     });
 };
+
+exports.excluirUser = function (req, res) {
+    _models.User.findById(req.params.id).then(function (user) {
+        if (user) {
+            user.destroy().then(function (user) {
+                res.json({ message: 'Usuário excluido com sucesso!' });
+            });
+        } else {
+            res.json({ erro: 'Usuário não encontrado...' });
+        }
+    });
+};

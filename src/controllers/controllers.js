@@ -46,3 +46,15 @@ exports.editarUser = ((req, res) => {
     });
 });
 
+exports.excluirUser = ((req, res) => {
+    User.findById(req.params.id).then(user => {
+        if(user){
+            user.destroy().then((user) => {
+                res.json({message: 'Usuário excluido com sucesso!'})
+            });
+        }else{
+            res.json({erro: 'Usuário não encontrado...'})
+        }
+    });
+});
+
