@@ -24,3 +24,25 @@ exports.cadastrarUser = ((req, res) => {
     });
 });
 
+exports.editarUser = ((req, res) => {
+    User.findById(req.params.id).then(user => {
+        if(user){
+            user.update({
+                nome: req.body.nome,
+                sobrenome: req.body.sobrenome,
+                cpf: req.body.cpf,
+                username: req.body.username,
+                password: req.body.password,
+                id: req.body.id,
+                matricula: req.body.matricula,
+                sexo: req.body.sexo,
+                email: req.body.email
+            }).then(() => {
+                res.json(user);
+            });
+        }else{
+            res.json({erro: 'Usuário não existe..'})
+        }
+    });
+});
+

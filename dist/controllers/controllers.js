@@ -23,3 +23,25 @@ exports.cadastrarUser = function (req, res) {
         res.json({ menssage: user });
     });
 };
+
+exports.editarUser = function (req, res) {
+    _models.User.findById(req.params.id).then(function (user) {
+        if (user) {
+            user.update({
+                nome: req.body.nome,
+                sobrenome: req.body.sobrenome,
+                cpf: req.body.cpf,
+                username: req.body.username,
+                password: req.body.password,
+                id: req.body.id,
+                matricula: req.body.matricula,
+                sexo: req.body.sexo,
+                email: req.body.email
+            }).then(function () {
+                res.json(user);
+            });
+        } else {
+            res.json({ erro: 'Usuário não existe..' });
+        }
+    });
+};
