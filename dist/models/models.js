@@ -27,7 +27,8 @@ var User = exports.User = sequelize.define('user', {
     },
     matricula: _sequelize2.default.STRING,
     sexo: _sequelize2.default.STRING,
-    email: _sequelize2.default.STRING
+    email: _sequelize2.default.STRING,
+    foto: _sequelize2.default.STRING(512)
 });
 
 var Turma = exports.Turma = sequelize.define('turma', {

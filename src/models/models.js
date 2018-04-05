@@ -16,7 +16,8 @@ export let User = sequelize.define('user', {
     },
     matricula : Sequelize.STRING,
     sexo : Sequelize.STRING,
-    email: Sequelize.STRING
+    email: Sequelize.STRING,
+    foto: Sequelize.STRING(512)
 });
 
 export let Turma = sequelize.define('turma', {
