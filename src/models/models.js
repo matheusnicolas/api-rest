@@ -31,8 +31,25 @@ export let Turma = sequelize.define('turma', {
 
 });
 
+export let Sala = sequelize.define('sala', {
+    id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
+    numero: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
+    capacidade: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    }
+})
+
 //Turma.hasMany(User, {foreignKey: 'aluno', sourceKey: 'id'});
 //User.belongsTo(Turma, {foreignKey: 'aluno', targetKey: 'id'});
 
 User.sync();
 Turma.sync();
+Sala.sync();
