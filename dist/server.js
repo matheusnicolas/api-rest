@@ -8,6 +8,10 @@ var _routes = require('./routes/routes');
 
 var _routes2 = _interopRequireDefault(_routes);
 
+var _salaRoutes = require('./routes/salaRoutes');
+
+var _salaRoutes2 = _interopRequireDefault(_salaRoutes);
+
 var _bodyParser = require('body-parser');
 
 var _bodyParser2 = _interopRequireDefault(_bodyParser);
@@ -20,6 +24,7 @@ app.use(_bodyParser2.default.urlencoded({ extended: true }));
 app.use(_bodyParser2.default.json());
 
 app.use('/', _routes2.default);
+app.use('/api/salas', _salaRoutes2.default);
 
 app.listen(9000, function () {
     console.log('Servidor rodando na porta 9000');
