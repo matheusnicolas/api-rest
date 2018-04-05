@@ -37,10 +37,8 @@ var getSala = exports.getSala = function getSala(req, res) {
         if (sala) {
             res.status(_httpStatusCodes2.default.OK).json(sala).send();
         } else {
-            res.status(_httpStatusCodes2.default.BAD_REQUEST).json({ msg: "Sala não existe" });
+            res.status(_httpStatusCodes2.default.NOT_FOUND).json(responseNotFoundSala()).send();
         }
-    }).catch(function (erro) {
-        res.status(_httpStatusCodes2.default.BAD_REQUEST).json(responseErroCatch(_httpStatusCodes2.default.BAD_REQUEST)).send();
     });
 };
 
@@ -62,6 +60,8 @@ var atualizarSala = exports.atualizarSala = function atualizarSala(req, res) {
             }).catch(function (erro) {
                 res.status(_httpStatusCodes2.default.BAD_REQUEST).json(responseErroCatch(_httpStatusCodes2.default.BAD_REQUEST)).send();
             });
+        } else {
+            res.status(_httpStatusCodes2.default.NOT_FOUND).json(responseNotFoundSala()).send();
         }
     });
 };
@@ -69,11 +69,15 @@ var atualizarSala = exports.atualizarSala = function atualizarSala(req, res) {
 var excluirSala = exports.excluirSala = function excluirSala(req, res) {
     var idSala = req.params.id_sala;
     _models.Sala.findById(idSala).then(function (sala) {
-        sala.destroy().then(function (sala) {
-            res.status(_httpStatusCodes2.default.OK).json(sala).send();
-        }).catch(function (erro) {
-            res.status(_httpStatusCodes2.default.BAD_REQUEST).json(responseErroCatch(_httpStatusCodes2.default.BAD_REQUEST)).send();
-        });
+        if (sala) {
+            sala.destroy().then(function (sala) {
+                res.status(_httpStatusCodes2.default.OK).json(sala).send();
+            }).catch(function (erro) {
+                res.status(_httpStatusCodes2.default.BAD_REQUEST).json(responseErroCatch(_httpStatusCodes2.default.BAD_REQUEST)).send();
+            });
+        } else {
+            res.status(_httpStatusCodes2.default.NOT_FOUND).json(responseNotFoundSala()).send();
+        }
     });
 };
 
@@ -81,3 +85,9 @@ function responseErroCatch(code) {
     var erro = { msg: _httpStatusCodes2.default.getStatusText(code) };
     return erro;
 }
+
+function responseNotFoundSala() {
+    return { msg: MSG_SALA_NOT_FOUND };
+}
+
+var MSG_SALA_NOT_FOUND = "Sala não existe";

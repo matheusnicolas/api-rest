@@ -32,14 +32,10 @@ export let Turma = sequelize.define('turma', {
 });
 
 export let Sala = sequelize.define('sala', {
-    id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
-    },
     numero: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        primaryKey: true
     },
     capacidade: {
         type: Sequelize.INTEGER,
