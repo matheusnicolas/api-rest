@@ -5,15 +5,6 @@ const controllers = require('../controllers/controllers');
 
 let router = express.Router();
 
-router.route("/user")
-    .get(controllers.getUser)
-    .post(controllers.cadastrarUser)
-
-router.route("/user/:user_id")
-    .get(controllers.getUserById)
-    .put(controllers.editarUser)
-    .delete(controllers.excluirUser)
-
 router.route("/turma")
     .get(controllers.getTurma)
     .post(controllers.cadastrarTurma)
