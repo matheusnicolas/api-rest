@@ -21,8 +21,12 @@ var auth = exports.auth = function auth(req, res, next) {
     var token = req.headers['x-access-token'];
     if (token) {
         _jsonwebtoken2.default.verify(token, SECRET_ENCODING_MESSAGE, function (error, decoded) {
-            req.user = decoded;
-            next();
+            if (error != null) {
+                res.status(_httpStatusCodes2.default.UNAUTHORIZED).json({ error: _httpStatusCodes2.default.getStatusText(_httpStatusCodes2.default.UNAUTHORIZED) }).send();
+            } else {
+                req.user = decoded;
+                next();
+            }
         });
     } else {
         res.status(_httpStatusCodes2.default.UNAUTHORIZED).json({ error: _httpStatusCodes2.default.getStatusText(_httpStatusCodes2.default.UNAUTHORIZED) }).send();
