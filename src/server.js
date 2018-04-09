@@ -10,6 +10,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/static',express.static('public'))
+//app.use(auth)
 
 app.use('/', routes);
 app.use('/api/salas', salaRoutes)

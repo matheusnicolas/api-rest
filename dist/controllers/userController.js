@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.excluirUser = exports.editarUser = exports.getUserById = exports.cadastrarUser = exports.getUser = undefined;
+exports.excluirUser = exports.editarUser = exports.getUserById = exports.cadastrarUser = exports.getUser = exports.login = exports.profile = undefined;
 
 var _express = require('express');
 
@@ -13,7 +13,21 @@ var _httpStatusCodes = require('http-status-codes');
 
 var _httpStatusCodes2 = _interopRequireDefault(_httpStatusCodes);
 
+var _bcrypt = require('bcrypt');
+
+var _bcrypt2 = _interopRequireDefault(_bcrypt);
+
+var _jsonwebtoken = require('jsonwebtoken');
+
+var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
+
+var _auth = require('../middlewares/auth');
+
+var auth = _interopRequireWildcard(_auth);
+
 var _models = require('../models/models');
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21,6 +35,22 @@ var fs = require('fs');
 var fileType = require('file-type');
 
 var router = _express2.default.Router();
+
+var profile = exports.profile = function profile(req, res) {
+    res.status(_httpStatusCodes2.default.OK).json(req.user).send();
+};
+
+var login = exports.login = function login(req, res) {
+    _models.User.findOne({ where: { username: req.body.username } }).then(function (user) {
+        if (req.body.password == user.get({ plain: true }).password) {
+            var token = _jsonwebtoken2.default.sign(user.get({ plain: true }), auth.SECRET_ENCODING_MESSAGE);
+            res.status(_httpStatusCodes2.default.OK).json({ message: 'usuário autenticado', token: token }).send();
+        } else {
+            console.log('password incorreto');
+        }
+        console.log('passou pelo if e else');
+    });
+};
 
 var getUser = exports.getUser = function getUser(req, res) {
     _models.User.findAll().then(function (user) {
