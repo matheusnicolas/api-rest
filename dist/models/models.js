@@ -20,15 +20,15 @@ var sequelize = new _sequelize2.default('kula_bd', null, null, {
 var User = exports.User = sequelize.define('user', {
     nome: _sequelize2.default.STRING,
     sobrenome: _sequelize2.default.STRING,
-    cpf: _sequelize2.default.STRING,
-    username: _sequelize2.default.STRING,
-    password: _sequelize2.default.STRING,
+    cpf: { type: _sequelize2.default.STRING, unique: true },
+    username: { type: _sequelize2.default.STRING, allowNull: false, unique: true },
+    password: { type: _sequelize2.default.STRING, allowNull: false },
     id: { type: _sequelize2.default.INTEGER, primaryKey: true, autoIncrement: true
     },
-    matricula: _sequelize2.default.STRING,
+    matricula: { type: _sequelize2.default.STRING, allowNull: false, unique: true },
     sexo: _sequelize2.default.STRING,
-    email: _sequelize2.default.STRING,
-    foto: _sequelize2.default.STRING(512)
+    email: { type: _sequelize2.default.STRING, allowNull: false, unique: true },
+    foto: { type: _sequelize2.default.STRING(512), allowNull: true }
 });
 
 var Turma = exports.Turma = sequelize.define('turma', {
