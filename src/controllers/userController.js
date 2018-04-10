@@ -1,10 +1,29 @@
 import express from 'express'
 import HttpStatus from 'http-status-codes'
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import * as auth from '../middlewares/auth'
 import {User} from '../models/models'
 const fs = require('fs')
 const fileType = require('file-type')
 
 let router = express.Router()
+
+export let profile = (req, res) => {
+    res.status(HttpStatus.OK).json(req.user).send()
+}
+
+export let login = (req, res) => {
+    User.findOne({where: {username: req.body.username}}).then((user) => {
+        if(req.body.password == user.get({plain:true}).password){
+            const token = jwt.sign(user.get({plain:true}), auth.SECRET_ENCODING_MESSAGE)
+            res.status(HttpStatus.OK).json({message: 'usuário autenticado', token: token}).send()
+        }else{
+            console.log('password incorreto')
+        }
+        console.log('passou pelo if e else')
+    })
+}
 
 export let getUser = (req, res) => {
     User.findAll().then((user) => {

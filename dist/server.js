@@ -28,6 +28,7 @@ app.use(_bodyParser2.default.urlencoded({ extended: true }));
 app.use(_bodyParser2.default.json());
 
 app.use('/static', _express2.default.static('public'));
+//app.use(auth)
 
 app.use('/', _routes2.default);
 app.use('/api/salas', _salaRoutes2.default);
