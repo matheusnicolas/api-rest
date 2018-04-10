@@ -67,11 +67,21 @@ var cadastrarUser = exports.cadastrarUser = function cadastrarUser(req, res) {
     var matricula = req.body.matricula;
     var sexo = req.body.sexo;
     var email = req.body.email;
-    var data = { nome: nome, sobrenome: sobrenome, cpf: cpf, username: username, password: password, matricula: matricula, sexo: sexo, email: email };
-    _models.User.create(data).then(function (user) {
-        var foto = salvarFotoUsuario(req.body.foto, user.username);
-        user.update({ foto: foto }).then(function (user) {
-            res.json({ menssage: user });
+    var dataValidacao = { nome: nome, sobrenome: sobrenome, cpf: cpf, username: username, matricula: matricula, sexo: sexo, email: email };
+
+    _bcrypt2.default.hash(req.body.password, 12).then(function (result) {
+        var data = { nome: nome, sobrenome: sobrenome, cpf: cpf, username: username, password: result, matricula: matricula, sexo: sexo, email: email };
+        _models.User.create(data).then(function (user) {
+            if (req.body.foto) {
+                var foto = salvarFotoUsuario(req.body.foto, user.username);
+                user.update({ foto: foto }).then(function (user) {
+                    res.status(_httpStatusCodes2.default.OK).json({ user: user });
+                });
+            } else {
+                res.status(_httpStatusCodes2.default.OK).json({ user: user });
+            }
+        }).catch(function (erro) {
+            res.status(250).json({ erro: erro.errors[0].path });
         });
     });
 };
@@ -103,6 +113,8 @@ var editarUser = exports.editarUser = function editarUser(req, res) {
                 foto: foto
             }).then(function () {
                 res.json(user);
+            }).catch(function (erro) {
+                res.status(250).json({ erro: erro.errors[0].path });
             });
         } else {
             res.json({ erro: 'Usuário não existe' });

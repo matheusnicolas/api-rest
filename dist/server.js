@@ -24,6 +24,10 @@ var _bodyParser = require('body-parser');
 
 var _bodyParser2 = _interopRequireDefault(_bodyParser);
 
+var _expressValidator = require('express-validator');
+
+var _expressValidator2 = _interopRequireDefault(_expressValidator);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
@@ -38,6 +42,7 @@ app.use('/', _routes2.default);
 app.use('/api/salas', _salaRoutes2.default);
 app.use('/api/users', _userRoutes2.default);
 app.use('/api/disciplina', _disciplinaRoutes2.default);
+app.use(_expressValidator2.default);
 
 app.listen(9000, function () {
     console.log('Servidor rodando na porta 9000');
