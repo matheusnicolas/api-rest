@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.Sala = exports.Turma = exports.User = undefined;
+exports.Disciplina = exports.Sala = exports.Turma = exports.User = undefined;
 
 var _sequelize = require('sequelize');
 
@@ -55,9 +55,18 @@ var Sala = exports.Sala = sequelize.define('sala', {
     }
 });
 
+var Disciplina = exports.Disciplina = sequelize.define('disciplina', {
+    nome: _sequelize2.default.STRING,
+    id: {
+        type: _sequelize2.default.INTEGER, autoIncrement: true, primaryKey: true
+    }
+
+});
+
 //Turma.hasMany(User, {foreignKey: 'aluno', sourceKey: 'id'});
 //User.belongsTo(Turma, {foreignKey: 'aluno', targetKey: 'id'});
 
 User.sync();
 Turma.sync();
 Sala.sync();
+Disciplina.sync();

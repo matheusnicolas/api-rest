@@ -44,9 +44,18 @@ export let Sala = sequelize.define('sala', {
     }
 })
 
+export let Disciplina = sequelize.define('disciplina', {
+    nome: Sequelize.STRING,
+    id: {
+        type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true
+    }
+
+});
+
 //Turma.hasMany(User, {foreignKey: 'aluno', sourceKey: 'id'});
 //User.belongsTo(Turma, {foreignKey: 'aluno', targetKey: 'id'});
 
 User.sync();
 Turma.sync();
 Sala.sync();
+Disciplina.sync();
