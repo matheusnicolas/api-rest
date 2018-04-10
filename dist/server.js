@@ -16,6 +16,10 @@ var _userRoutes = require('./routes/userRoutes');
 
 var _userRoutes2 = _interopRequireDefault(_userRoutes);
 
+var _disciplinaRoutes = require('./routes/disciplinaRoutes');
+
+var _disciplinaRoutes2 = _interopRequireDefault(_disciplinaRoutes);
+
 var _bodyParser = require('body-parser');
 
 var _bodyParser2 = _interopRequireDefault(_bodyParser);
@@ -33,6 +37,7 @@ app.use('/static', _express2.default.static('public'));
 app.use('/', _routes2.default);
 app.use('/api/salas', _salaRoutes2.default);
 app.use('/api/users', _userRoutes2.default);
+app.use('/api/disciplina', _disciplinaRoutes2.default);
 
 app.listen(9000, function () {
     console.log('Servidor rodando na porta 9000');
