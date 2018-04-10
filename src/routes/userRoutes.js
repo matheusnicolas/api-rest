@@ -1,13 +1,7 @@
 import express from 'express'
 import * as controller from '../controllers/userController'
-import * as middleware from '../middlewares/auth'
 
 let router = express.Router()
-
-/* 
-    import do middleware de autenticação no sistema
-*/
-router.use(middleware.auth)
 
 router.route("/")
     .get(controller.getUser)
