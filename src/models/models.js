@@ -9,15 +9,15 @@ let sequelize = new Sequelize('kula_bd', null, null, {
 export let User = sequelize.define('user', {
     nome : Sequelize.STRING,
     sobrenome : Sequelize.STRING,
-    cpf : Sequelize.STRING,
-    username : Sequelize.STRING,
-    password : Sequelize.STRING,
+    cpf : {type:Sequelize.STRING, unique: true},
+    username : {type:Sequelize.STRING, allowNull: false, unique: true},
+    password : {type:Sequelize.STRING, allowNull: false },
     id : { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true
     },
-    matricula : Sequelize.STRING,
+    matricula : {type:Sequelize.STRING, allowNull: false, unique:true },
     sexo : Sequelize.STRING,
-    email: Sequelize.STRING,
-    foto: Sequelize.STRING(512)
+    email: {type:Sequelize.STRING, allowNull: false, unique:true },
+    foto: {type:Sequelize.STRING(512), allowNull: true}
 });
 
 export let Turma = sequelize.define('turma', {

@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import * as auth from '../middlewares/auth'
 import {User} from '../models/models'
+
 const fs = require('fs')
 const fileType = require('file-type')
 
@@ -40,12 +41,22 @@ export let cadastrarUser = ((req, res) => {
     const matricula = req.body.matricula;
     const sexo = req.body.sexo;
     const email = req.body.email;
-    const data = {nome:nome, sobrenome:sobrenome, cpf:cpf, username:username, password:password, matricula:matricula, sexo:sexo, email:email};
-    User.create(data).then((user) => {
-        let foto = salvarFotoUsuario(req.body.foto, user.username)
-        user.update({foto:foto}).then((user) => {
-            res.json({menssage: user});
-        })
+    const dataValidacao = {nome:nome, sobrenome:sobrenome, cpf:cpf, username:username, matricula:matricula, sexo:sexo, email:email};
+    
+    bcrypt.hash(req.body.password, 12).then(result => {
+        const data = {nome:nome, sobrenome:sobrenome, cpf:cpf, username:username, password:result, matricula:matricula, sexo:sexo, email:email};
+        User.create(data).then((user) => {
+            if(req.body.foto){
+            let foto = salvarFotoUsuario(req.body.foto, user.username)
+            user.update({foto:foto}).then((user) => {
+                res.status(HttpStatus.OK).json({user: user});
+            });
+        }else{
+            res.status(HttpStatus.OK).json({user: user});
+        }
+        }).catch (erro =>{
+            res.status(250).json({erro: erro.errors[0].path});
+        });
     });
 });
 
@@ -76,6 +87,8 @@ export let editarUser = ((req, res) => {
                 foto: foto
             }).then(() => {
                 res.json(user);
+            }).catch (erro =>{
+                res.status(250).json({erro: erro.errors[0].path});
             });
         }else{
             res.json({erro: 'Usuário não existe'})
