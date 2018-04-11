@@ -6,18 +6,16 @@ import * as controller from '../controllers/atividadeController'
 let router = express.Router();
 
 router.route('/')
-    .get(controller.getAllAtividade) 
     .post(controller.cadastrarAtividade)
+    .get(controller.getAllAtividade) 
 
-
-router.route('/:id_atividade/')
+router.route('/:id_atividade')
 	.get(controller.getAtividade)
 	.put(controller.submeterAtividade)
 	.delete(controller.excluirAtividade)
 	
-
 /*router.route('/pontuacao')
-	.put(controller.atualizarPontuacao)
-*/
+	.put(controller.atualizarPontuacao)*/
+
 
 export default router;

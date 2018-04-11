@@ -21,12 +21,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var router = _express2.default.Router();
 
-router.route('/').get(controller.getAllAtividade).post(controller.cadastrarAtividade);
+router.route('/').post(controller.cadastrarAtividade).get(controller.getAllAtividade);
 
-router.route('/:id_atividade/').get(controller.getAtividade).put(controller.submeterAtividade).delete(controller.excluirAtividade);
+router.route('/:id_atividade').get(controller.getAtividade).put(controller.submeterAtividade).delete(controller.excluirAtividade);
 
 /*router.route('/pontuacao')
-	.put(controller.atualizarPontuacao)
-*/
+	.put(controller.atualizarPontuacao)*/
 
 exports.default = router;
