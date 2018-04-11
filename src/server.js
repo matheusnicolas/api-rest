@@ -3,6 +3,7 @@ import routes from './routes/routes'
 import salaRoutes from './routes/salaRoutes'
 import userRoutes from './routes/userRoutes'
 import disciplinaRoutes from './routes/disciplinaRoutes'
+import atividadeRoutes from './routes/atividadeRoutes'
 import bodyParser from 'body-parser'
 import expressValidator from 'express-validator';
 
@@ -18,6 +19,7 @@ app.use('/', routes);
 app.use('/api/salas', salaRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/disciplina', disciplinaRoutes)
+app.use('/api/atividades',atividadeRoutes)
 app.use(expressValidator)
 
 

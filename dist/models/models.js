@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.Disciplina = exports.Sala = exports.Turma = exports.User = undefined;
+exports.Atividade = exports.Disciplina = exports.Sala = exports.Turma = exports.User = undefined;
 
 var _sequelize = require('sequelize');
 
@@ -63,10 +63,22 @@ var Disciplina = exports.Disciplina = sequelize.define('disciplina', {
 
 });
 
+var Atividade = exports.Atividade = sequelize.define('atividade', {
+    pontuacao: _sequelize2.default.DOUBLE,
+    dataEncerramento: _sequelize2.default.DATEONLY,
+    descricao: _sequelize2.default.STRING,
+    arquivoAtividade: _sequelize2.default.STRING,
+    turma: _sequelize2.default.STRING,
+    id: { type: _sequelize2.default.INTEGER, primaryKey: true, autoIncrement: true
+    }
+});
+
 //Turma.hasMany(User, {foreignKey: 'aluno', sourceKey: 'id'});
 //User.belongsTo(Turma, {foreignKey: 'aluno', targetKey: 'id'});
+
 
 User.sync();
 Turma.sync();
 Sala.sync();
 Disciplina.sync();
+Atividade.sync();

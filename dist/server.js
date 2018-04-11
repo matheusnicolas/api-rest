@@ -20,6 +20,10 @@ var _disciplinaRoutes = require('./routes/disciplinaRoutes');
 
 var _disciplinaRoutes2 = _interopRequireDefault(_disciplinaRoutes);
 
+var _atividadeRoutes = require('./routes/atividadeRoutes');
+
+var _atividadeRoutes2 = _interopRequireDefault(_atividadeRoutes);
+
 var _bodyParser = require('body-parser');
 
 var _bodyParser2 = _interopRequireDefault(_bodyParser);
@@ -42,6 +46,7 @@ app.use('/', _routes2.default);
 app.use('/api/salas', _salaRoutes2.default);
 app.use('/api/users', _userRoutes2.default);
 app.use('/api/disciplina', _disciplinaRoutes2.default);
+app.use('/api/atividades', _atividadeRoutes2.default);
 app.use(_expressValidator2.default);
 
 app.listen(9000, function () {
