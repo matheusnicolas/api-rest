@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.AlunoProfTurma = exports.ProfTurma = exports.ProfDisc = exports.Frequencia = exports.Nota = exports.Disciplina = exports.Sala = exports.Turma = exports.User = undefined;
+exports.AlunoProfTurma = exports.ProfTurma = exports.ProfDisc = exports.Frequencia = exports.Nota = exports.Disciplina = exports.Sala = exports.Turma = exports.Professor = exports.User = undefined;
 
 var _sequelize = require('sequelize');
 
@@ -36,6 +36,21 @@ var User = exports.User = sequelize.define('user', {
     sexo: _sequelize2.default.STRING,
     email: { type: _sequelize2.default.STRING, allowNull: false, unique: true },
     foto: { type: _sequelize2.default.STRING(512), allowNull: true }
+});
+
+var Professor = exports.Professor = sequelize.define('professor', {
+    nome: _sequelize2.default.STRING,
+    sobrenome: _sequelize2.default.STRING,
+    cpf: _sequelize2.default.STRING,
+    username: _sequelize2.default.STRING,
+    password: _sequelize2.default.STRING,
+    id: { type: _sequelize2.default.INTEGER, primaryKey: true, autoIncrement: true
+    },
+    matricula: _sequelize2.default.STRING,
+    sexo: _sequelize2.default.STRING,
+    email: _sequelize2.default.STRING,
+    disciplina: _sequelize2.default.STRING,
+    foto: _sequelize2.default.STRING(512)
 });
 
 var Turma = exports.Turma = sequelize.define('turma', {
@@ -112,6 +127,7 @@ Frequencia.belongsTo(AlunoProfTurma, { through: 'alunoProfTurmaId' });
 //User.belongsTo(Turma, {foreignKey: 'aluno', targetKey: 'id'});
 
 User.sync();
+Professor.sync();
 Turma.sync();
 Sala.sync();
 Disciplina.sync();
