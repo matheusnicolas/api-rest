@@ -52,6 +52,17 @@ export let Disciplina = sequelize.define('disciplina', {
 
 });
 
+export let Nota = sequelize.define('nota', {
+    aluno: Sequelize.STRING,
+    nota: Sequelize.DOUBLE,
+    unidade: Sequelize.INTEGER,
+    bimestre: Sequelize.INTEGER,
+    professor: Sequelize.STRING,
+    id: {
+        type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true
+    }
+});
+
 //Turma.hasMany(User, {foreignKey: 'aluno', sourceKey: 'id'});
 //User.belongsTo(Turma, {foreignKey: 'aluno', targetKey: 'id'});
 
@@ -59,3 +70,4 @@ User.sync();
 Turma.sync();
 Sala.sync();
 Disciplina.sync();
+Nota.sync();
