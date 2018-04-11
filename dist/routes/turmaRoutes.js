@@ -17,14 +17,13 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //import * as middleware from '../middlewares/auth'
-var controllers = require('../controllers/controllers');
 
 var router = _express2.default.Router();
 
 //router.use(middleware.auth)
 
-router.route("/turma").get(controller.getAllTurma).post(controller.cadastrarTurma);
+router.route("/").get(controller.getAllTurma).post(controller.cadastrarTurma);
 
-router.route("/turma/:turma_id").get(controller.getTurmaById).put(controller.editarTurma).delete(controller.excluirTurma);
+router.route("/:id_turma").get(controller.getTurmaById).put(controller.editarTurma).delete(controller.excluirTurma);
 
 exports.default = router;

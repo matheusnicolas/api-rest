@@ -41,7 +41,6 @@ export let listarDisciplinas = (req, res) => {
 export let editarDisciplina = (req, res) => {
     const idDisciplina = req.params.id_disciplina
     Disciplina.findById(idDisciplina).then((disciplina) => {
-        
         if(disciplina){
             const nome = req.body.nome
             const data = {nome: nome}

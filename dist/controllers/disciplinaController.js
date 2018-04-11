@@ -50,7 +50,6 @@ var listarDisciplinas = exports.listarDisciplinas = function listarDisciplinas(r
 var editarDisciplina = exports.editarDisciplina = function editarDisciplina(req, res) {
     var idDisciplina = req.params.id_disciplina;
     _models.Disciplina.findById(idDisciplina).then(function (disciplina) {
-
         if (disciplina) {
             var nome = req.body.nome;
             var data = { nome: nome };

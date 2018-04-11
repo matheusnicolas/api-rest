@@ -34,44 +34,6 @@ var cadastrarNota = exports.cadastrarNota = function cadastrarNota(req, res) {
     });
 };
 
-/*
-export let getAllNotasDoAluno = (req, res) => {
-    const nomeAluno = req.params.nome_aluno
-    Nota.findOne({where: {nomeAluno}}).then((nota) =>{
-        if(nota){
-            if(nomeAluno === nota.aluno){
-                Nota.findAll().then((nota) => {
-                res.status(HttpStatus.OK).json(nota).send()
-            })
-        }else{
-            res.status(HttpStatus.NOT_FOUND).json(exceptions.responseNotFoundNota()).send()
-        }
-        }
-            
-        
-    })
-}
-
-export let getNotasDoSemestreDoAlunoPorUnidade = (req, res) => {
-    const nomeAluno = req.params.nome_aluno
-    const semestre = req.params.semestre
-    const unidade = req.params.unidade
-    Nota.findOne({where: {nomeAluno}}).then((nota) =>{
-        if(nomeAluno === nota.aluno){
-            Nota.findById(semestre).then(nota => {
-                if(nota){
-                    Nota.findById(unidade).then(nota => {
-                        if(nota){
-                            res.status(HttpStatus.OK).json(nota).send()
-                        }
-                    })
-                }
-            })
-        }
-    })
-    
-} */
-
 var editarNota = exports.editarNota = function editarNota(req, res) {
     var idNota = req.params.nota_id;
     _models.Nota.findById(idNota).then(function (nota) {

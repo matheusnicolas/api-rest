@@ -27,6 +27,21 @@ export let User = sequelize.define('user', {
     foto: {type:Sequelize.STRING(512), allowNull: true}
 });
 
+export let Professor = sequelize.define('professor', {
+    nome : Sequelize.STRING,
+    sobrenome : Sequelize.STRING,
+    cpf : Sequelize.STRING,
+    username : Sequelize.STRING,
+    password : Sequelize.STRING,
+    id : { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true
+    },
+    matricula : Sequelize.STRING,
+    sexo : Sequelize.STRING,
+    email: Sequelize.STRING,
+    disciplina: Sequelize.STRING,
+    foto: Sequelize.STRING(512)
+});
+
 export let Turma = sequelize.define('turma', {
     id: {
         type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true
@@ -73,7 +88,6 @@ export let Frequencia = sequelize.define('frequencia', {
 });
 
 
-
 export let ProfDisc = sequelize.define('profDisc', {
     id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true}
 });
@@ -103,6 +117,7 @@ Frequencia.belongsTo(AlunoProfTurma, {through: 'alunoProfTurmaId'})
 //User.belongsTo(Turma, {foreignKey: 'aluno', targetKey: 'id'});
 
 User.sync();
+Professor.sync();
 Turma.sync();
 Sala.sync();
 Disciplina.sync(); 
