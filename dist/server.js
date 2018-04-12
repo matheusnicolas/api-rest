@@ -20,6 +20,11 @@ var _disciplinaRoutes = require('./routes/disciplinaRoutes');
 
 var _disciplinaRoutes2 = _interopRequireDefault(_disciplinaRoutes);
 
+
+var _atividadeRoutes = require('./routes/atividadeRoutes');
+
+var _atividadeRoutes2 = _interopRequireDefault(_atividadeRoutes);
+
 var _turmaRoutes = require('./routes/turmaRoutes');
 
 var _turmaRoutes2 = _interopRequireDefault(_turmaRoutes);
@@ -31,6 +36,7 @@ var _professorRoutes2 = _interopRequireDefault(_professorRoutes);
 var _notaRoutes = require('./routes/notaRoutes');
 
 var _notaRoutes2 = _interopRequireDefault(_notaRoutes);
+
 
 var _bodyParser = require('body-parser');
 
@@ -54,8 +60,12 @@ app.use('/', _routes2.default);
 app.use('/api/salas', _salaRoutes2.default);
 app.use('/api/users', _userRoutes2.default);
 app.use('/api/disciplina', _disciplinaRoutes2.default);
+
+app.use('/api/atividades', _atividadeRoutes2.default);
+
 app.use('/api/turma', _turmaRoutes2.default);
 app.use('/api/professor', _professorRoutes2.default);
+
 app.use(_expressValidator2.default);
 
 app.listen(9000, function () {

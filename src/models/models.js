@@ -71,6 +71,18 @@ export let Disciplina = sequelize.define('disciplina', {
 
 });
 
+
+export let Atividade = sequelize.define('atividade',{
+    pontuacao: Sequelize.DOUBLE,
+    dataEncerramento: Sequelize.DATEONLY,
+    descricao: Sequelize.STRING,
+    arquivoAtividade: Sequelize.STRING,
+    turma: Sequelize.STRING,
+    id : { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true
+    }
+});
+
+
 export let Nota = sequelize.define('nota', {
     id: {
         type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true
@@ -116,13 +128,18 @@ Frequencia.belongsTo(AlunoProfTurma, {through: 'alunoProfTurmaId'})
 //Turma.hasMany(User, {foreignKey: 'aluno', sourceKey: 'id'});
 //User.belongsTo(Turma, {foreignKey: 'aluno', targetKey: 'id'});
 
+
+
 User.sync();
 Professor.sync();
 Turma.sync();
 Sala.sync();
+Atividade.sync();
+
 Disciplina.sync(); 
 Nota.sync();
 ProfDisc.sync();
 ProfTurma.sync();
 AlunoProfTurma.sync();
 Frequencia.sync();
+
