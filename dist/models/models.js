@@ -81,12 +81,14 @@ var Disciplina = exports.Disciplina = sequelize.define('disciplina', {
     }
 
 });
+
 /*
  AtividadeAluno seria um model que teria todos esses atributos:
     aluno
     observacaoAluno
     arquivoAluno
 */
+
 
 var Atividade = exports.Atividade = sequelize.define('atividade', {
     pontuacao: _sequelize2.default.DOUBLE,

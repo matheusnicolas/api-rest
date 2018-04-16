@@ -61,6 +61,7 @@ app.use('/api/disciplina', _disciplinaRoutes2.default);
 app.use('/api/atividades', _atividadeRoutes2.default);
 app.use('/api/turma', _turmaRoutes2.default);
 app.use('/api/professor', _professorRoutes2.default);
+app.use('/api/nota', _notaRoutes2.default);
 
 app.use(_expressValidator2.default);
 
