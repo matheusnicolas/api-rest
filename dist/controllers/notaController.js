@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.excluirNota = exports.editarNota = exports.cadastrarNota = undefined;
+exports.excluirNota = exports.editarNota = exports.getAllNotasUnidade = exports.getAllNotasBimestre = exports.cadastrarNota = exports.getAllNotas = undefined;
 
 var _express = require('express');
 
@@ -15,7 +15,7 @@ var _httpStatusCodes2 = _interopRequireDefault(_httpStatusCodes);
 
 var _models = require('../models/models');
 
-var _notaExceptions = require('../exceptions/notaExceptions');
+var _notaExceptions = require('../exceptions/notaExceptions.js');
 
 var exceptions = _interopRequireWildcard(_notaExceptions);
 
@@ -23,26 +23,57 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var router = _express2.default.Router();
+var getAllNotas = exports.getAllNotas = function getAllNotas(req, res) {
+    _models.Nota.findAll().then(function (nota) {
+        res.status(_httpStatusCodes2.default.OK).json(nota).send();
+    });
+};
 
 var cadastrarNota = exports.cadastrarNota = function cadastrarNota(req, res) {
     var data = req.body;
-    _models.Nota.create(req.body).then(function (nota) {
+    _models.Nota.create(data).then(function (nota) {
         res.status(_httpStatusCodes2.default.CREATED).json(nota).send();
     }).catch(function (erro) {
-        res.status(_httpStatusCodes2.default.BAD_REQUEST).json(exceptions.responseErrorCatch(_httpStatusCodes2.default)).send();
+        res.status(_httpStatusCodes2.default.BAD_REQUEST).json(exceptions.responseErrorCatch(_httpStatusCodes2.default.BAD_REQUEST)).send();
+    });
+};
+
+var getAllNotasBimestre = exports.getAllNotasBimestre = function getAllNotasBimestre(req, res) {
+    var bimestre = req.params.id_bimestre;
+    _models.Nota.findAll({ where: { bimestre: bimestre } }).then(function (nota) {
+        if (nota) {
+            res.status(_httpStatusCodes2.default.OK).json(nota).send();
+        } else {
+            res.status(_httpStatusCodes2.default.NOT_FOUND).json(exceptions.responseNotFoundNota()).send();
+        }
+    }).catch(function (erro) {
+        res.status(_httpStatusCodes2.default.BAD_REQUEST).json(exceptions.responseErrorCatch)(_httpStatusCodes2.default.BAD_REQUEST).send();
+    });
+};
+
+var getAllNotasUnidade = exports.getAllNotasUnidade = function getAllNotasUnidade(req, res) {
+    var unidade = req.params.id_unidade;
+    _models.Nota.findAll({ where: { unidade: unidade } }).then(function (nota) {
+        if (nota) {
+            res.status(_httpStatusCodes2.default.OK).json(nota).send();
+        } else {
+            res.status(_httpStatusCodes2.default.NOT_FOUND).json(exceptions.responseNotFoundNota()).send();
+        }
+    }).catch(function (erro) {
+        res.status(_httpStatusCodes2.default.BAD_REQUEST).json(exceptions.responseErrorCatch)(_httpStatusCodes2.default.BAD_REQUEST).send();
     });
 };
 
 var editarNota = exports.editarNota = function editarNota(req, res) {
-    var idNota = req.params.nota_id;
+    var idNota = req.params.id_nota;
     _models.Nota.findById(idNota).then(function (nota) {
         if (nota) {
-            var data = req.body;
-            nota.update(data).then(function () {
+            var _nota = req.body.nota;
+            var data = { nota: _nota };
+            _nota.update(data).then(function (nota) {
                 res.status(_httpStatusCodes2.default.OK).json(nota).send();
             }).catch(function (erro) {
-                res.status(_httpStatusCodes2.default.BAD_REQUEST).json(exceptions.responseErrorCatch(_httpStatusCodes2.default.BAD_REQUEST)).send();
+                res.status(_httpStatusCodes2.default.BAD_REQUEST).send();
             });
         } else {
             res.status(_httpStatusCodes2.default.NOT_FOUND).json(exceptions.responseNotFoundNota()).send();
@@ -55,12 +86,12 @@ var excluirNota = exports.excluirNota = function excluirNota(req, res) {
     _models.Nota.findById(idNota).then(function (nota) {
         if (nota) {
             nota.destroy().then(function (nota) {
-                res.status(_httpStatusCodes2.default.OK).json(nota.send());
+                res.status(_httpStatusCodes2.default.OK).json(nota).send();
             }).catch(function (erro) {
-                res.status(_httpStatusCodes2.default.BAD_REQUEST).json(exceptions.responseErroCatch(_httpStatusCodes2.default.BAD_REQUEST)).send();
+                res.status(_httpStatusCodes2.default.BAD_REQUEST).json(responseErroCatch(_httpStatusCodes2.default.BAD_REQUEST)).send();
             });
         } else {
             res.status(_httpStatusCodes2.default.NOT_FOUND).json(exceptions.responseNotFoundNota()).send();
-        };
+        }
     });
 };

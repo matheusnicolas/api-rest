@@ -3,9 +3,7 @@ import routes from './routes/routes'
 import salaRoutes from './routes/salaRoutes'
 import userRoutes from './routes/userRoutes'
 import disciplinaRoutes from './routes/disciplinaRoutes'
-
 import atividadeRoutes from './routes/atividadeRoutes'
-
 import turmaRoutes from './routes/turmaRoutes'
 import professorRoutes from './routes/professorRoutes'
 import notaRoutes from './routes/notaRoutes'
@@ -28,6 +26,7 @@ app.use('/api/disciplina', disciplinaRoutes)
 app.use('/api/atividades',atividadeRoutes)
 app.use('/api/turma', turmaRoutes)
 app.use('/api/professor', professorRoutes)
+app.use('/api/nota', notaRoutes)
 
 app.use(expressValidator)
 
