@@ -3,11 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-exports.Atividade = exports.Disciplina = exports.Sala = exports.Turma = exports.User = undefined;
-
-exports.AlunoProfTurma = exports.ProfTurma = exports.ProfDisc = exports.Frequencia = exports.Nota = exports.Disciplina = exports.Sala = exports.Turma = exports.Professor = exports.User = undefined;
-
+exports.AlunoProfTurma = exports.ProfTurma = exports.ProfDisc = exports.Frequencia = exports.Nota = exports.Atividade = exports.Disciplina = exports.Sala = exports.Turma = exports.Professor = exports.User = undefined;
 
 var _sequelize = require('sequelize');
 
@@ -85,7 +81,12 @@ var Disciplina = exports.Disciplina = sequelize.define('disciplina', {
     }
 
 });
-
+/*
+ AtividadeAluno seria um model que teria todos esses atributos:
+    aluno
+    observacaoAluno
+    arquivoAluno
+*/
 
 var Atividade = exports.Atividade = sequelize.define('atividade', {
     pontuacao: _sequelize2.default.DOUBLE,
@@ -96,7 +97,6 @@ var Atividade = exports.Atividade = sequelize.define('atividade', {
     id: { type: _sequelize2.default.INTEGER, primaryKey: true, autoIncrement: true
     }
 });
-
 
 var Nota = exports.Nota = sequelize.define('nota', {
     id: {
@@ -126,6 +126,10 @@ var AlunoProfTurma = exports.AlunoProfTurma = sequelize.define('alunoProfTurma',
     id: { type: _sequelize2.default.INTEGER, primaryKey: true, autoIncrement: true }
 });
 
+/*export let AtividadeAluno= sequelize.define('alunoAtividade',{
+    id:{type: Sequelize.INTEGER,primaryKey:true}
+});*/
+
 User.belongsToMany(Disciplina, { through: 'profDisc' });
 Disciplina.belongsToMany(User, { through: 'profDisc' });
 
@@ -139,22 +143,22 @@ Nota.belongsTo(AlunoProfTurma, { foreignKey: 'alunoProfTurmaId' });
 
 Frequencia.belongsTo(AlunoProfTurma, { through: 'alunoProfTurmaId' });
 
-
 //Turma.hasMany(User, {foreignKey: 'aluno', sourceKey: 'id'});
 //User.belongsTo(Turma, {foreignKey: 'aluno', targetKey: 'id'});
 
+//Atividade.belongsTo (AtividadeAluno, {foreignKey: 'atividadeAluno'});
+//Atividade.belongsToMany
+//
 
 User.sync();
 Professor.sync();
 Turma.sync();
 Sala.sync();
-Disciplina.sync();
-
 Atividade.sync();
 
+Disciplina.sync();
 Nota.sync();
 ProfDisc.sync();
 ProfTurma.sync();
 AlunoProfTurma.sync();
 Frequencia.sync();
-
