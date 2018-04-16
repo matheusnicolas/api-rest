@@ -1,21 +1,15 @@
 import express from 'express'
 import * as controller from '../controllers/atividadeController'
-//let controller = require('../controllers/atividadeController')
-
 
 let router = express.Router();
 
 router.route('/')
-    .post(controller.cadastrarAtividade)
-    .get(controller.getAllAtividade) 
+    .post(controller.cadastrarAtividade)//ok
+    .get(controller.getAllAtividade) //ok
 
 router.route('/:id_atividade')
-	.get(controller.getAtividade)
-	.put(controller.submeterAtividade)
-	.delete(controller.excluirAtividade)
-	
-/*router.route('/pontuacao')
-	.put(controller.atualizarPontuacao)*/
-
+	.get(controller.getAtividadeById)//n funciona
+	.put(controller.submeterAtividade)//da erro
+	.delete(controller.excluirAtividade)//vou testar aindja . FALTA A RELAÇÃO DO BANCO
 
 export default router;

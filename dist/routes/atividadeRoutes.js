@@ -16,14 +16,14 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//let controller = require('../controllers/atividadeController')
-
-
 var router = _express2.default.Router();
 
-router.route('/').post(controller.cadastrarAtividade).get(controller.getAllAtividade);
+router.route('/').post(controller.cadastrarAtividade) //ok
+.get(controller.getAllAtividade); //ok
 
-router.route('/:id_atividade').get(controller.getAtividade).put(controller.submeterAtividade).delete(controller.excluirAtividade);
+router.route('/:id_atividade').get(controller.getAtividadeById) //n funciona
+.put(controller.submeterAtividade) //da erro
+.delete(controller.excluirAtividade); //vou testar aindja
 
 /*router.route('/pontuacao')
 	.put(controller.atualizarPontuacao)*/

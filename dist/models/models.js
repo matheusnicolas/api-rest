@@ -82,6 +82,14 @@ var Disciplina = exports.Disciplina = sequelize.define('disciplina', {
 
 });
 
+/*
+ AtividadeAluno seria um model que teria todos esses atributos:
+    aluno
+    observacaoAluno
+    arquivoAluno
+*/
+
+
 var Atividade = exports.Atividade = sequelize.define('atividade', {
     pontuacao: _sequelize2.default.DOUBLE,
     dataEncerramento: _sequelize2.default.DATEONLY,
@@ -120,6 +128,10 @@ var AlunoProfTurma = exports.AlunoProfTurma = sequelize.define('alunoProfTurma',
     id: { type: _sequelize2.default.INTEGER, primaryKey: true, autoIncrement: true }
 });
 
+/*export let AtividadeAluno= sequelize.define('alunoAtividade',{
+    id:{type: Sequelize.INTEGER,primaryKey:true}
+});*/
+
 User.belongsToMany(Disciplina, { through: 'profDisc' });
 Disciplina.belongsToMany(User, { through: 'profDisc' });
 
@@ -136,6 +148,9 @@ Frequencia.belongsTo(AlunoProfTurma, { through: 'alunoProfTurmaId' });
 //Turma.hasMany(User, {foreignKey: 'aluno', sourceKey: 'id'});
 //User.belongsTo(Turma, {foreignKey: 'aluno', targetKey: 'id'});
 
+//Atividade.belongsTo (AtividadeAluno, {foreignKey: 'atividadeAluno'});
+//Atividade.belongsToMany
+//
 
 User.sync();
 Professor.sync();

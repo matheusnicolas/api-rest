@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.atualizarPontuacao = exports.excluirAtividade = exports.submeterAtividade = exports.getAtividade = exports.getAllAtividade = exports.cadastrarAtividade = undefined;
+exports.excluirAtividade = exports.submeterAtividade = exports.getAtividadeById = exports.getAllAtividade = exports.cadastrarAtividade = undefined;
 
 var _express = require('express');
 
@@ -13,9 +13,17 @@ var _httpStatusCodes = require('http-status-codes');
 
 var _httpStatusCodes2 = _interopRequireDefault(_httpStatusCodes);
 
+var _atividadeExceptions = require('../exceptions/atividadeExceptions');
+
+var exceptions = _interopRequireWildcard(_atividadeExceptions);
+
 var _models = require('../models/models');
 
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var router = _express2.default.Router();
 
 var cadastrarAtividade = exports.cadastrarAtividade = function cadastrarAtividade(req, res) {
 	var descricao = req.body.descricao;
@@ -28,40 +36,39 @@ var cadastrarAtividade = exports.cadastrarAtividade = function cadastrarAtividad
 	_models.Atividade.create(data).then(function (atividade) {
 		res.status(_httpStatusCodes2.default.CREATED).json(atividade).send();
 	}).catch(function (erro) {
-		res.status(_httpStatusCodes2.default.BAD_REQUEST).json(responseErroCatch(_httpStatusCodes2.default.BAD_REQUEST)).send();
+		res.status(_httpStatusCodes2.default.BAD_REQUEST).json(exceptions.responseErroCatch(_httpStatusCodes2.default.BAD_REQUEST)).send();
 	});
 };
 
 var getAllAtividade = exports.getAllAtividade = function getAllAtividade(req, res) {
-	_models.Atividade.findAll().then(function (atividades) {
+	_models.Atividade.findAll().then(function (atividade) {
 		res.status(_httpStatusCodes2.default.OK).json(atividade).send();
 	});
 };
 
-var getAtividade = exports.getAtividade = function getAtividade(req, res) {
-	var id_Atividade = req.params.id_Atividade;
-	_models.Atividade.findById(id_Atividade).then(function (atividade) {
+var getAtividadeById = exports.getAtividadeById = function getAtividadeById(req, res) {
+	var id_atividade = req.params.id_atividade;
+	_models.Atividade.findById(id_atividade).then(function (atividade) {
 		if (atividade) {
 			res.status(_httpStatusCodes2.default.OK).json(atividade).send();
 		} else {
-			res.status(_httpStatusCodes2.default.NOT_FOUND).json(responseNotFoundAtividade()).send();
+			res.status(_httpStatusCodes2.default.NOT_FOUND).json(exceptions.responseNotFoundAtividade()).send();
 		}
 	});
 };
 
 var submeterAtividade = exports.submeterAtividade = function submeterAtividade(req, res) {
-	var id_Atividade = req.body.id_Atividade;
-	_models.Atividade.findById(id_Atividade).then(function (atividade) {
+	var id_atividade = req.params.id_atividade;
+	_models.Atividade.findById(id_atividade).then(function (atividade) {
 		if (atividade) {
-			var arquivoAtividade = req.body.arquivoAtividade;
-			var data = { arquivoAtividade: arquivoAtividade };
-			atividade.update(data).then(function (atividade) {
+			var data = req.body;
+			atividade.update(data).then(function () {
 				res.status(_httpStatusCodes2.default.OK).json(atividade).send();
 			}).catch(function (erro) {
-				res.status(_httpStatusCodes2.default.BAD_REQUEST).json(responseErroCatch(_httpStatusCodes2.default.BAD_REQUEST)).send();
+				res.status(_httpStatusCodes2.default.BAD_REQUEST).json(exceptions.responseErroCatch(_httpStatusCodes2.default.BAD_REQUEST)).send();
 			});
 		} else {
-			res.status(_httpStatusCodes2.default.NOT_FOUND).json(responseNotFoundAtividade()).send();
+			res.status(_httpStatusCodes2.default.NOT_FOUND).json(exceptions.responseErroCatch(_httpStatusCodes2.default.BAD_REQUEST)).send();
 		}
 	});
 };
@@ -81,30 +88,19 @@ var excluirAtividade = exports.excluirAtividade = function excluirAtividade(req,
 	});
 };
 
-var atualizarPontuacao = exports.atualizarPontuacao = function atualizarPontuacao(req, res) {
-	var id_Atividade = req.body.id_Atividade;
-	_models.Atividade.findById(id_Atividade).then(function (atividade) {
-		if (atividade) {
-			var pontuacao = req.body.pontuacao;
-			var data = { pontuacao: pontuacao };
-			atividade.update(data).then(function () {
-				res.status(_httpStatusCodes2.default.OK).json(atividade).send();
-			}).catch(function (erro) {
-				res.status(_httpStatusCodes2.default.BAD_REQUEST).json(responseErroCatch(_httpStatusCodes2.default.BAD_REQUEST)).send();
-			});
-		} else {
-			res.status(_httpStatusCodes2.default.NOT_FOUND).json(responseNotFoundAtividade()).send();
+/*export let atualizarPontuacao = (req,res)=>{
+	const id_Atividade= req.body.id_Atividade;
+	Atividade.findById(id_Atividade).then((atividade)=>{
+		if(atividade){
+			const pontuacao= req.body.pontuacao;
+			const data= {pontuacao:pontuacao}
+			atividade.update(data).then(()=>{
+				res.status(HttpStatus.OK).json(atividade).send()
+			}).catch((erro)=>{
+				res.status(HttpStatus.BAD_REQUEST).json(responseErroCatch(HttpStatus.BAD_REQUEST)).send()
+			})
+		}else{
+			res.status(HttpStatus.NOT_FOUND).json(responseNotFoundAtividade()).send()
 		}
-	});
-};
-
-function responseErroCatch(code) {
-	var erro = { msg: _httpStatusCodes2.default.getStatusText(code) };
-	return erro;
-}
-
-function responseNotFoundAtividade() {
-	return { msg: ATIVIDADE_NOT_FOUND };
-}
-
-var ATIVIDADE_NOT_FOUND = "Atividade não cadastrada.";
+	})
+}*/
