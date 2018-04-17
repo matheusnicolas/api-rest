@@ -9,13 +9,13 @@ export let getAllNotas = (req, res) => {
     })
 }
 
-
-
 export let cadastrarNota = (req, res) => {
     const nota = req.body.nota
     const unidade = req.body.unidade
     const bimestre = req.body.bimestre
-    const data = {nota: nota, unidade: unidade, bimestre: bimestre}
+    const alunoId = req.body.alunoId
+    const profDiscId = req.body.profDiscId
+    const data = {nota: nota, unidade: unidade, bimestre: bimestre, alunoId: alunoId, profDiscId: profDiscId}
     Nota.create(data).then((nota) => {
         res.status(HttpStatus.CREATED).json(nota).send()
     }).catch((erro) => {

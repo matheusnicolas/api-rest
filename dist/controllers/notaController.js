@@ -33,7 +33,9 @@ var cadastrarNota = exports.cadastrarNota = function cadastrarNota(req, res) {
     var nota = req.body.nota;
     var unidade = req.body.unidade;
     var bimestre = req.body.bimestre;
-    var data = { nota: nota, unidade: unidade, bimestre: bimestre };
+    var alunoId = req.body.alunoId;
+    var profDiscId = req.body.profDiscId;
+    var data = { nota: nota, unidade: unidade, bimestre: bimestre, alunoId: alunoId, profDiscId: profDiscId };
     _models.Nota.create(data).then(function (nota) {
         res.status(_httpStatusCodes2.default.CREATED).json(nota).send();
     }).catch(function (erro) {

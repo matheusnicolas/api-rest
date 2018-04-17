@@ -4,7 +4,7 @@ import * as middleware from '../middlewares/auth'
 
 let router = express.Router();
 
-router.use(middleware.auth)
+//router.use(middleware.auth)
 
 router.route("/")
     .post(controller.cadastrarTurma)

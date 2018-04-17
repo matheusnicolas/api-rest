@@ -1,7 +1,9 @@
 import express from 'express'
 import * as controller from '../controllers/notaController'
+import * as middleware from '../middlewares/auth'
 
 let router = express.Router();
+//router.use(middleware.auth)
 
 router.route('/')
     .post(controller.cadastrarNota)
@@ -13,7 +15,7 @@ router.route('/bimestre/:bimestre_params')
 router.route('/unidade/:unidade_params')
     .get(controller.getAllNotasUnidade)
 
-router.route('/:bimestre_params/:unidade_params')
+router.route('/bimeste/:bimestre_params/unidade/:unidade_params')
     .put(controller.editarNota)
     .delete(controller.excluirNota)
 
