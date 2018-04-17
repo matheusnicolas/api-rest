@@ -22,7 +22,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var router = _express2.default.Router();
 
-router.use(middleware.auth);
+//router.use(middleware.auth)
 
 router.route("/").post(controller.cadastrarTurma).get(controller.getAllTurma);
 
