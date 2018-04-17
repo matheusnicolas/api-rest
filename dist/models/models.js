@@ -11,18 +11,18 @@ var _sequelize2 = _interopRequireDefault(_sequelize);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// let sequelize = new Sequelize('kula_bd', null, null, {
-//     host: 'localhost',
-//     dialect: 'sqlite',
-//     storage: './data.sqlite'
-// });
-
-var sequelize = new _sequelize2.default('kula_bd', 'kula', 'kula123456', {
+var sequelize = new _sequelize2.default('kula_bd', null, null, {
     host: 'localhost',
-    port: '5432',
-    dialect: 'postgres',
-    operatorsAliases: false
+    dialect: 'sqlite',
+    storage: './data.sqlite'
 });
+
+// let sequelize = new Sequelize('kula_bd', 'kula', 'kula123456', {
+//     host: 'localhost',
+//     port: '5432',
+//     dialect: 'postgres',
+//     operatorsAliases: false
+// });
 
 var User = exports.User = sequelize.define('user', {
     id: { type: _sequelize2.default.INTEGER, primaryKey: true, autoIncrement: true
