@@ -26,7 +26,7 @@ let controller = require('../controllers/controller')
 
 var router = _express2.default.Router();
 
-router.use(middleware.auth);
+// router.use(middleware.auth)
 
 router.route('/').get(controller.getAllSala).post(controller.cadastrarSala);
 

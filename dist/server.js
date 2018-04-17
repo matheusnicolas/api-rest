@@ -36,6 +36,10 @@ var _notaRoutes = require('./routes/notaRoutes');
 
 var _notaRoutes2 = _interopRequireDefault(_notaRoutes);
 
+var _frequenciaRoutes = require('./routes/frequenciaRoutes');
+
+var _frequenciaRoutes2 = _interopRequireDefault(_frequenciaRoutes);
+
 var _bodyParser = require('body-parser');
 
 var _bodyParser2 = _interopRequireDefault(_bodyParser);
@@ -62,6 +66,7 @@ app.use('/api/atividades', _atividadeRoutes2.default);
 app.use('/api/turma', _turmaRoutes2.default);
 app.use('/api/professor', _professorRoutes2.default);
 app.use('/api/nota', _notaRoutes2.default);
+app.use('/api/frequencia', _frequenciaRoutes2.default);
 
 app.use(_expressValidator2.default);
 
