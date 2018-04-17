@@ -20,10 +20,10 @@ var router = _express2.default.Router();
 
 router.route('/').post(controller.cadastrarNota).get(controller.getAllNotas);
 
-router.route('/:id_nota').put(controller.editarNota).delete(controller.excluirNota);
+router.route('/bimestre/:bimestre_params').get(controller.getAllNotasBimestre);
 
-router.route('/:id_bimestre').get(controller.getAllNotasBimestre);
+router.route('/unidade/:unidade_params').get(controller.getAllNotasUnidade);
 
-router.route('/:id_unidade').get(controller.getAllNotasUnidade);
+router.route('/:bimestre_params/:unidade_params').put(controller.editarNota).delete(controller.excluirNota);
 
 exports.default = router;

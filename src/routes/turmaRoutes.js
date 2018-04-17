@@ -1,10 +1,10 @@
 import express from 'express';
 import * as controller from '../controllers/turmaController'
-//import * as middleware from '../middlewares/auth'
+import * as middleware from '../middlewares/auth'
 
 let router = express.Router();
 
-//router.use(middleware.auth)
+router.use(middleware.auth)
 
 router.route("/")
     .post(controller.cadastrarTurma)
