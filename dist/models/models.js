@@ -58,8 +58,7 @@ var Turma = exports.Turma = sequelize.define('turma', {
         type: _sequelize2.default.INTEGER, autoIncrement: true, primaryKey: true
     },
     sigla: _sequelize2.default.STRING,
-    serie: _sequelize2.default.INTEGER,
-    sala: { type: _sequelize2.default.INTEGER, allowNull: false }
+    serie: _sequelize2.default.INTEGER
 });
 
 var Sala = exports.Sala = sequelize.define('sala', {
@@ -146,6 +145,8 @@ Frequencia.belongsTo(ProfDisc, { foreignKey: 'profDiscId' });
 Atividade.belongsTo(ProfTurma, { foreignKey: 'profTurmaId' });
 AtividadeResposta.belongsTo(User, { foreignKey: 'alunoId' });
 AtividadeResposta.belongsTo(Atividade, { foreignKey: 'atividadeId' });
+
+Turma.belongsTo(Sala, { foreignKey: 'salaId' });
 
 User.sync();
 Professor.sync();
