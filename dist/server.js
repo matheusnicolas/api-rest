@@ -65,6 +65,6 @@ app.use('/api/nota', _notaRoutes2.default);
 
 app.use(_expressValidator2.default);
 
-app.listen(4000, function () {
+app.listen(9000, function () {
     console.log('Servidor rodando na porta 9000');
 });

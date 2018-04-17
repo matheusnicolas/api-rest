@@ -31,6 +31,6 @@ app.use('/api/nota', notaRoutes)
 app.use(expressValidator)
 
 
-app.listen(4000, () => {
+app.listen(9000, () => {
     console.log('Servidor rodando na porta 9000')
 })

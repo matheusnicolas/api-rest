@@ -22,8 +22,10 @@ var router = _express2.default.Router();
 
 //router.use(middleware.auth)
 
-router.route("/").get(controller.getAllTurma).post(controller.cadastrarTurma);
+router.route("/").post(controller.cadastrarTurma).get(controller.getAllTurma);
 
 router.route("/:id_turma").get(controller.getTurmaById).put(controller.editarTurma).delete(controller.excluirTurma);
+
+router.route("/serie/:serie_params").get(controller.getAllTurmasBySerie);
 
 exports.default = router;
