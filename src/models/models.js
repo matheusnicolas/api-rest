@@ -44,11 +44,10 @@ export let Professor = sequelize.define('professor', {
 
 export let Turma = sequelize.define('turma', {
     id: {
-        type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true
+        type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true
     },
     sigla: Sequelize.STRING,
-    serie: Sequelize.INTEGER,
-    sala: {type:Sequelize.INTEGER, allowNull: false}
+    serie: Sequelize.INTEGER
 });
 
 export let Sala = sequelize.define('sala', {
