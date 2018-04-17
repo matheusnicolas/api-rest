@@ -36,7 +36,6 @@ var _notaRoutes = require('./routes/notaRoutes');
 
 var _notaRoutes2 = _interopRequireDefault(_notaRoutes);
 
-<<<<<<< HEAD
 var _horarioRoutes = require('./routes/horarioRoutes');
 
 var _horarioRoutes2 = _interopRequireDefault(_horarioRoutes);
@@ -44,11 +43,10 @@ var _horarioRoutes2 = _interopRequireDefault(_horarioRoutes);
 var _profDiscRoutes = require('./routes/profDiscRoutes');
 
 var _profDiscRoutes2 = _interopRequireDefault(_profDiscRoutes);
-=======
+
 var _frequenciaRoutes = require('./routes/frequenciaRoutes');
 
 var _frequenciaRoutes2 = _interopRequireDefault(_frequenciaRoutes);
->>>>>>> ff4e867212742577fe35612a5395345a51ddb8ca
 
 var _bodyParser = require('body-parser');
 
@@ -76,12 +74,9 @@ app.use('/api/atividades', _atividadeRoutes2.default);
 app.use('/api/turma', _turmaRoutes2.default);
 app.use('/api/professor', _professorRoutes2.default);
 app.use('/api/nota', _notaRoutes2.default);
-<<<<<<< HEAD
 app.use('/api/horario', _horarioRoutes2.default);
 app.use('/api/profdisc', _profDiscRoutes2.default);
-=======
 app.use('/api/frequencia', _frequenciaRoutes2.default);
->>>>>>> ff4e867212742577fe35612a5395345a51ddb8ca
 
 app.use(_expressValidator2.default);
 

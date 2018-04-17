@@ -7,12 +7,10 @@ import atividadeRoutes from './routes/atividadeRoutes'
 import turmaRoutes from './routes/turmaRoutes'
 import professorRoutes from './routes/professorRoutes'
 import notaRoutes from './routes/notaRoutes'
-<<<<<<< HEAD
 import horario from './routes/horarioRoutes'
 import professorDisc from './routes/profDiscRoutes'
-=======
 import frequenciaRoutes from './routes/frequenciaRoutes'
->>>>>>> ff4e867212742577fe35612a5395345a51ddb8ca
+
 
 import bodyParser from 'body-parser'
 import expressValidator from 'express-validator';
