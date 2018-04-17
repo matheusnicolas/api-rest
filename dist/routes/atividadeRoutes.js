@@ -23,9 +23,6 @@ router.route('/').post(controller.cadastrarAtividade) //ok
 
 router.route('/:id_atividade').get(controller.getAtividadeById) //n funciona
 .put(controller.submeterAtividade) //da erro
-.delete(controller.excluirAtividade); //vou testar aindja
-
-/*router.route('/pontuacao')
-	.put(controller.atualizarPontuacao)*/
+.delete(controller.excluirAtividade); //vou testar aindja . FALTA A RELAÇÃO DO BANCO
 
 exports.default = router;

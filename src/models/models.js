@@ -48,7 +48,7 @@ export let Turma = sequelize.define('turma', {
     },
     sigla: Sequelize.STRING,
     serie: Sequelize.INTEGER,
-    sala: Sequelize.STRING    
+    sala: {type:Sequelize.INTEGER, allowNull: false}
 });
 
 export let Sala = sequelize.define('sala', {
@@ -68,23 +68,27 @@ export let Disciplina = sequelize.define('disciplina', {
     id: {
         type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true
     }
-
 });
-/*
- AtividadeAluno seria um model que teria todos esses atributos:
-    aluno
-    observacaoAluno
-    arquivoAluno
-*/
+
+export let Horario = sequelize.define('horario', {
+    profTurma: {type:Sequelize.INTEGER, allowNull: false},
+    diaSemana: {type:Sequelize.STRING, allowNull: false},
+    ordemAula: {type:Sequelize.STRING, allowNull: false}
+});
 
 export let Atividade = sequelize.define('atividade',{
-    pontuacao: Sequelize.DOUBLE,
+    id : { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true
+    },
     dataEncerramento: Sequelize.DATEONLY,
     descricao: Sequelize.STRING,
-    arquivoAtividade: Sequelize.STRING,
-    turma: Sequelize.STRING,
+    arquivoAtividade: Sequelize.STRING
+});
+
+export let AtividadeResposta = sequelize.define('atividadeResposta', {
     id : { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true
-    }
+    },
+    arquivoResposta: Sequelize.STRING,
+    comentario: Sequelize.STRING
 });
 
 
@@ -95,13 +99,11 @@ export let Nota = sequelize.define('nota', {
     nota: Sequelize.DOUBLE,
     unidade: Sequelize.INTEGER,
     bimestre: Sequelize.INTEGER,
-    alunoProfTurmaId : {type:Sequelize.INTEGER, allowNull: false}
 });
 
 export let Frequencia = sequelize.define('frequencia', {
     data : Sequelize.DATE,
     presenca : Sequelize.BOOLEAN,
-    alunoProfTurmaId :  {type:Sequelize.INTEGER, allowNull: false}
 });
 
 
@@ -113,42 +115,40 @@ export let ProfTurma = sequelize.define('profTurma', {
     id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true}
 });
 
-export let AlunoProfTurma = sequelize.define('alunoProfTurma', {
+export let TurmaAluno = sequelize.define('turmaAluno', {
     id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true}
 });
 
-/*export let AtividadeAluno= sequelize.define('alunoAtividade',{
-    id:{type: Sequelize.INTEGER,primaryKey:true}
-});*/
-
 User.belongsToMany(Disciplina, { through: 'profDisc' });
-Disciplina.belongsToMany(User, {through: 'profDisc'});
+Disciplina.belongsToMany(User, { through: 'profDisc'});
 
-User.belongsToMany(Turma, { through: 'profTurma' });
-Turma.belongsToMany(User, {through: 'profTurma'});
+ProfDisc.belongsToMany(Turma, { through: 'profTurma' });
+Turma.belongsToMany(ProfDisc, { through: 'profTurma'});
 
-User.belongsToMany(ProfTurma, { through: 'alunoProfTurma' });
-ProfTurma.belongsToMany(User, {through: 'alunoProfTurma'});
+User.belongsToMany(ProfTurma, { through: 'turmaAluno' });
+ProfTurma.belongsToMany(User, { through: 'turmaAluno'});
 
-Nota.belongsTo(AlunoProfTurma, {foreignKey: 'alunoProfTurmaId'});
+Nota.belongsTo(User, {foreignKey: 'alunoId'});
+Nota.belongsTo(ProfDisc, {foreignKey: 'profDiscId'});
 
-Frequencia.belongsTo(AlunoProfTurma, {through: 'alunoProfTurmaId'})
+Frequencia.belongsTo(User, {foreignKey: 'alunoId'});
+Frequencia.belongsTo(ProfDisc, {foreignKey: 'profDiscId'});
 
-//Turma.hasMany(User, {foreignKey: 'aluno', sourceKey: 'id'});
-//User.belongsTo(Turma, {foreignKey: 'aluno', targetKey: 'id'});
+Atividade.belongsTo(ProfTurma, {foreignKey: 'profTurmaId'});
+AtividadeResposta.belongsTo(User, {foreignKey: 'alunoId'});
+AtividadeResposta.belongsTo(Atividade, {foreignKey: 'atividadeId'});
 
-//Atividade.belongsTo (AtividadeAluno, {foreignKey: 'atividadeAluno'});
 
 User.sync();
-Professor.sync();
+Professor.sync(); 
 Turma.sync();
 Sala.sync();
 Atividade.sync();
-
+AtividadeResposta.sync();
 Disciplina.sync(); 
 Nota.sync();
 ProfDisc.sync();
 ProfTurma.sync();
-AlunoProfTurma.sync();
 Frequencia.sync();
-
+TurmaAluno.sync();
+Horario.sync();

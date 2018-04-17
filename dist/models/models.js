@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.AlunoProfTurma = exports.ProfTurma = exports.ProfDisc = exports.Frequencia = exports.Nota = exports.Atividade = exports.Disciplina = exports.Sala = exports.Turma = exports.Professor = exports.User = undefined;
+exports.TurmaAluno = exports.ProfTurma = exports.ProfDisc = exports.Frequencia = exports.Nota = exports.AtividadeResposta = exports.Atividade = exports.Horario = exports.Disciplina = exports.Sala = exports.Turma = exports.Professor = exports.User = undefined;
 
 var _sequelize = require('sequelize');
 
@@ -59,7 +59,7 @@ var Turma = exports.Turma = sequelize.define('turma', {
     },
     sigla: _sequelize2.default.STRING,
     serie: _sequelize2.default.INTEGER,
-    sala: _sequelize2.default.STRING
+    sala: { type: _sequelize2.default.INTEGER, allowNull: false }
 });
 
 var Sala = exports.Sala = sequelize.define('sala', {
@@ -79,25 +79,27 @@ var Disciplina = exports.Disciplina = sequelize.define('disciplina', {
     id: {
         type: _sequelize2.default.INTEGER, autoIncrement: true, primaryKey: true
     }
-
 });
 
-/*
- AtividadeAluno seria um model que teria todos esses atributos:
-    aluno
-    observacaoAluno
-    arquivoAluno
-*/
-
+var Horario = exports.Horario = sequelize.define('horario', {
+    profTurma: { type: _sequelize2.default.INTEGER, allowNull: false },
+    diaSemana: { type: _sequelize2.default.STRING, allowNull: false },
+    ordemAula: { type: _sequelize2.default.STRING, allowNull: false }
+});
 
 var Atividade = exports.Atividade = sequelize.define('atividade', {
-    pontuacao: _sequelize2.default.DOUBLE,
+    id: { type: _sequelize2.default.INTEGER, primaryKey: true, autoIncrement: true
+    },
     dataEncerramento: _sequelize2.default.DATEONLY,
     descricao: _sequelize2.default.STRING,
-    arquivoAtividade: _sequelize2.default.STRING,
-    turma: _sequelize2.default.STRING,
+    arquivoAtividade: _sequelize2.default.STRING
+});
+
+var AtividadeResposta = exports.AtividadeResposta = sequelize.define('atividadeResposta', {
     id: { type: _sequelize2.default.INTEGER, primaryKey: true, autoIncrement: true
-    }
+    },
+    arquivoResposta: _sequelize2.default.STRING,
+    comentario: _sequelize2.default.STRING
 });
 
 var Nota = exports.Nota = sequelize.define('nota', {
@@ -106,14 +108,12 @@ var Nota = exports.Nota = sequelize.define('nota', {
     },
     nota: _sequelize2.default.DOUBLE,
     unidade: _sequelize2.default.INTEGER,
-    bimestre: _sequelize2.default.INTEGER,
-    alunoProfTurmaId: { type: _sequelize2.default.INTEGER, allowNull: false }
+    bimestre: _sequelize2.default.INTEGER
 });
 
 var Frequencia = exports.Frequencia = sequelize.define('frequencia', {
     data: _sequelize2.default.DATE,
-    presenca: _sequelize2.default.BOOLEAN,
-    alunoProfTurmaId: { type: _sequelize2.default.INTEGER, allowNull: false }
+    presenca: _sequelize2.default.BOOLEAN
 });
 
 var ProfDisc = exports.ProfDisc = sequelize.define('profDisc', {
@@ -124,43 +124,39 @@ var ProfTurma = exports.ProfTurma = sequelize.define('profTurma', {
     id: { type: _sequelize2.default.INTEGER, primaryKey: true, autoIncrement: true }
 });
 
-var AlunoProfTurma = exports.AlunoProfTurma = sequelize.define('alunoProfTurma', {
+var TurmaAluno = exports.TurmaAluno = sequelize.define('turmaAluno', {
     id: { type: _sequelize2.default.INTEGER, primaryKey: true, autoIncrement: true }
 });
-
-/*export let AtividadeAluno= sequelize.define('alunoAtividade',{
-    id:{type: Sequelize.INTEGER,primaryKey:true}
-});*/
 
 User.belongsToMany(Disciplina, { through: 'profDisc' });
 Disciplina.belongsToMany(User, { through: 'profDisc' });
 
-User.belongsToMany(Turma, { through: 'profTurma' });
-Turma.belongsToMany(User, { through: 'profTurma' });
+ProfDisc.belongsToMany(Turma, { through: 'profTurma' });
+Turma.belongsToMany(ProfDisc, { through: 'profTurma' });
 
-User.belongsToMany(ProfTurma, { through: 'alunoProfTurma' });
-ProfTurma.belongsToMany(User, { through: 'alunoProfTurma' });
+User.belongsToMany(ProfTurma, { through: 'turmaAluno' });
+ProfTurma.belongsToMany(User, { through: 'turmaAluno' });
 
-Nota.belongsTo(AlunoProfTurma, { foreignKey: 'alunoProfTurmaId' });
+Nota.belongsTo(User, { foreignKey: 'alunoId' });
+Nota.belongsTo(ProfDisc, { foreignKey: 'profDiscId' });
 
-Frequencia.belongsTo(AlunoProfTurma, { through: 'alunoProfTurmaId' });
+Frequencia.belongsTo(User, { foreignKey: 'alunoId' });
+Frequencia.belongsTo(ProfDisc, { foreignKey: 'profDiscId' });
 
-//Turma.hasMany(User, {foreignKey: 'aluno', sourceKey: 'id'});
-//User.belongsTo(Turma, {foreignKey: 'aluno', targetKey: 'id'});
-
-//Atividade.belongsTo (AtividadeAluno, {foreignKey: 'atividadeAluno'});
-//Atividade.belongsToMany
-//
+Atividade.belongsTo(ProfTurma, { foreignKey: 'profTurmaId' });
+AtividadeResposta.belongsTo(User, { foreignKey: 'alunoId' });
+AtividadeResposta.belongsTo(Atividade, { foreignKey: 'atividadeId' });
 
 User.sync();
 Professor.sync();
 Turma.sync();
 Sala.sync();
 Atividade.sync();
-
+AtividadeResposta.sync();
 Disciplina.sync();
 Nota.sync();
 ProfDisc.sync();
 ProfTurma.sync();
-AlunoProfTurma.sync();
 Frequencia.sync();
+TurmaAluno.sync();
+Horario.sync();

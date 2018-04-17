@@ -73,6 +73,7 @@ var cadastrarUser = exports.cadastrarUser = function cadastrarUser(req, res) {
         var data = { nome: nome, sobrenome: sobrenome, cpf: cpf, username: username, password: result, matricula: matricula, sexo: sexo, email: email };
         _models.User.create(data).then(function (user) {
             if (req.body.foto) {
+                console.log("tem foto");
                 var foto = salvarFotoUsuario(req.body.foto, user.username);
                 user.update({ foto: foto }).then(function (user) {
                     res.status(_httpStatusCodes2.default.OK).json({ user: user });

@@ -47,13 +47,14 @@ export let cadastrarUser = ((req, res) => {
         const data = {nome:nome, sobrenome:sobrenome, cpf:cpf, username:username, password:result, matricula:matricula, sexo:sexo, email:email};
         User.create(data).then((user) => {
             if(req.body.foto){
-            let foto = salvarFotoUsuario(req.body.foto, user.username)
-            user.update({foto:foto}).then((user) => {
+                console.log("tem foto");   
+                let foto = salvarFotoUsuario(req.body.foto, user.username)
+                user.update({foto:foto}).then((user) => {
+                    res.status(HttpStatus.OK).json({user: user});
+                });
+            }else{
                 res.status(HttpStatus.OK).json({user: user});
-            });
-        }else{
-            res.status(HttpStatus.OK).json({user: user});
-        }
+            }
         }).catch (erro =>{
             res.status(250).json({erro: erro.errors[0].path});
         });
