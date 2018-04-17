@@ -7,7 +7,7 @@ let controller = require('../controllers/controller')
 
 let router = express.Router()
 
-router.use(middleware.auth)
+// router.use(middleware.auth)
 
 router.route('/')
     .get(controller.getAllSala)

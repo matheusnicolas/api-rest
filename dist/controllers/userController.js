@@ -67,7 +67,13 @@ var cadastrarUser = exports.cadastrarUser = function cadastrarUser(req, res) {
     var matricula = req.body.matricula;
     var sexo = req.body.sexo;
     var email = req.body.email;
-    var dataValidacao = { nome: nome, sobrenome: sobrenome, cpf: cpf, username: username, matricula: matricula, sexo: sexo, email: email };
+    var dataValidacao = { nome: nome,
+        sobrenome: sobrenome,
+        cpf: cpf,
+        username: username,
+        matricula: matricula,
+        sexo: sexo,
+        email: email };
 
     _bcrypt2.default.hash(req.body.password, 12).then(function (result) {
         var data = { nome: nome, sobrenome: sobrenome, cpf: cpf, username: username, password: result, matricula: matricula, sexo: sexo, email: email };

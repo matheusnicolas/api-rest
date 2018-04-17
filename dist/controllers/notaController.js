@@ -30,7 +30,12 @@ var getAllNotas = exports.getAllNotas = function getAllNotas(req, res) {
 };
 
 var cadastrarNota = exports.cadastrarNota = function cadastrarNota(req, res) {
-    var data = req.body;
+    var nota = req.body.nota;
+    var unidade = req.body.unidade;
+    var bimestre = req.body.bimestre;
+    var alunoId = req.body.alunoId;
+    var profDiscId = req.body.profDiscId;
+    var data = { nota: nota, unidade: unidade, bimestre: bimestre, alunoId: alunoId, profDiscId: profDiscId };
     _models.Nota.create(data).then(function (nota) {
         res.status(_httpStatusCodes2.default.CREATED).json(nota).send();
     }).catch(function (erro) {
@@ -39,7 +44,7 @@ var cadastrarNota = exports.cadastrarNota = function cadastrarNota(req, res) {
 };
 
 var getAllNotasBimestre = exports.getAllNotasBimestre = function getAllNotasBimestre(req, res) {
-    var bimestre = req.params.id_bimestre;
+    var bimestre = req.params.bimestre_params;
     _models.Nota.findAll({ where: { bimestre: bimestre } }).then(function (nota) {
         if (nota) {
             res.status(_httpStatusCodes2.default.OK).json(nota).send();
@@ -52,7 +57,7 @@ var getAllNotasBimestre = exports.getAllNotasBimestre = function getAllNotasBime
 };
 
 var getAllNotasUnidade = exports.getAllNotasUnidade = function getAllNotasUnidade(req, res) {
-    var unidade = req.params.id_unidade;
+    var unidade = req.params.unidade_params;
     _models.Nota.findAll({ where: { unidade: unidade } }).then(function (nota) {
         if (nota) {
             res.status(_httpStatusCodes2.default.OK).json(nota).send();
@@ -65,8 +70,9 @@ var getAllNotasUnidade = exports.getAllNotasUnidade = function getAllNotasUnidad
 };
 
 var editarNota = exports.editarNota = function editarNota(req, res) {
-    var idNota = req.params.id_nota;
-    _models.Nota.findById(idNota).then(function (nota) {
+    var bimestre = req.body.bimestre_params;
+    var unidade = req.body.unidade_params;
+    _models.Nota.findOne({ where: { bimestre: bimestre, unidade: unidade } }).then(function (nota) {
         if (nota) {
             var _nota = req.body.nota;
             var data = { nota: _nota };
@@ -82,8 +88,9 @@ var editarNota = exports.editarNota = function editarNota(req, res) {
 };
 
 var excluirNota = exports.excluirNota = function excluirNota(req, res) {
-    var idNota = req.params.id_nota;
-    _models.Nota.findById(idNota).then(function (nota) {
+    var bimestre = req.body.bimestre;
+    var unidade = req.body.unidade;
+    _models.Nota.findOne({ where: { bimestre: bimestre, unidade: unidade } }).then(function (nota) {
         if (nota) {
             nota.destroy().then(function (nota) {
                 res.status(_httpStatusCodes2.default.OK).json(nota).send();

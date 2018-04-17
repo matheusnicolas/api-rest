@@ -45,7 +45,7 @@ var Professor = exports.Professor = sequelize.define('professor', {
 
 var Turma = exports.Turma = sequelize.define('turma', {
     id: {
-        type: _sequelize2.default.INTEGER, autoIncrement: true, primaryKey: true
+        type: _sequelize2.default.INTEGER, primaryKey: true, autoIncrement: true
     },
     sigla: _sequelize2.default.STRING,
     serie: _sequelize2.default.INTEGER

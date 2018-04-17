@@ -9,9 +9,34 @@ export let getAllTurma = (req, res) => {
     });
 };
 
-export let cadastrarTurma = ((req, res) => {
-    const data = req.body
-    Turma.create(req.body).then((turma) => {
+export let getTurmaById = (req, res) => {
+    const idTurma = req.params.id_turma
+    Turma.findById(idTurma).then((turma) => {
+        if(turma){
+            res.status(HttpStatus.OK).json(turma).send();
+        }else{
+            res.status(HttpStatus.NOT_FOUND).json(exceptions.responseNotFoundTurma()).send()
+        };
+    });
+};
+
+export let getAllTurmasBySerie = (req, res) => {
+    Turma.findAll({where: {serie: req.params.serie_params}}).then((turma) => {
+        if(turma){
+            res.status(HttpStatus.OK).json(turma).send()
+        }else{
+            res.status(HttpStatus.OK).json(exceptions.responseNotFoundTurma()).send()
+        }
+    }).catch((erro) => {
+        res.status(HttpStatus.BAD_REQUEST).json(exceptions.responseErrorCatch(HttpStatus.BAD_REQUEST)).send()
+    })
+}
+
+export let cadastrarTurma = (req, res) => {
+    const sigla = req.body.sigla
+    const serie = req.body.serie
+    const data = {sigla: sigla, serie: serie}
+    Turma.create(data).then((turma) => {
         res.status(HttpStatus.CREATED).json(turma).send()
     }).catch((erro) => {
         res.status(HttpStatus.BAD_REQUEST)
@@ -19,25 +44,16 @@ export let cadastrarTurma = ((req, res) => {
             .send()
     });
     
-});
-
-export let getTurmaById = ((req, res) => {
-    const idTurma = req.params.id_turma
-    Turma.findById(idTurma).then(turma => {
-        if(turma){
-            res.status(HttpStatus.OK).json(turma).send();
-        }else{
-            res.status(HttpStatus.NOT_FOUND).json(exceptions.responseNotFoundTurma()).send()
-        };
-    });
-});
+};
 
 export let editarTurma = (req, res) => {
     const idTurma = req.params.id_turma
     Turma.findById(idTurma).then((turma) => {
         if(turma){
-            const data = req.body
-            turma.update(data).then(() => {
+            const sigla = req.body.sigla
+            const serie = req.body.serie
+            const data = {sigla: sigla, serie: serie}
+            turma.update(data).then((turma) => {
                 res.status(HttpStatus.OK).json(turma).send()
             }).catch((erro) => {
                 res.status(HttpStatus.BAD_REQUEST)

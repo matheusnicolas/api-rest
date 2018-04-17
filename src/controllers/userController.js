@@ -41,7 +41,13 @@ export let cadastrarUser = ((req, res) => {
     const matricula = req.body.matricula;
     const sexo = req.body.sexo;
     const email = req.body.email;
-    const dataValidacao = {nome:nome, sobrenome:sobrenome, cpf:cpf, username:username, matricula:matricula, sexo:sexo, email:email};
+    const dataValidacao = {nome:nome, 
+                            sobrenome:sobrenome, 
+                            cpf:cpf, 
+                            username:username, 
+                            matricula:matricula, 
+                            sexo:sexo, 
+                            email:email};
     
     bcrypt.hash(req.body.password, 12).then(result => {
         const data = {nome:nome, sobrenome:sobrenome, cpf:cpf, username:username, password:result, matricula:matricula, sexo:sexo, email:email};
