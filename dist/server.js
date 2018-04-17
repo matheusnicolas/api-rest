@@ -70,6 +70,6 @@ app.use('/api/frequencia', _frequenciaRoutes2.default);
 
 app.use(_expressValidator2.default);
 
-app.listen(9000, function () {
+app.listen(4000, function () {
     console.log('Servidor rodando na porta 9000');
 });

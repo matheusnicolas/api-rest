@@ -9,8 +9,13 @@ export let getAllNotas = (req, res) => {
     })
 }
 
+
+
 export let cadastrarNota = (req, res) => {
-    const data = req.body
+    const nota = req.body.nota
+    const unidade = req.body.unidade
+    const bimestre = req.body.bimestre
+    const data = {nota: nota, unidade: unidade, bimestre: bimestre}
     Nota.create(data).then((nota) => {
         res.status(HttpStatus.CREATED).json(nota).send()
     }).catch((erro) => {
@@ -20,7 +25,7 @@ export let cadastrarNota = (req, res) => {
 }
 
 export let getAllNotasBimestre = (req, res) => {
-    const bimestre = req.params.id_bimestre
+    const bimestre = req.params.bimestre_params
     Nota.findAll({where: {bimestre: bimestre}}).then((nota) => {
     if(nota){
         res.status(HttpStatus.OK).json(nota).send()
@@ -33,7 +38,7 @@ export let getAllNotasBimestre = (req, res) => {
 }
 
 export let getAllNotasUnidade = (req, res) => {
-    const unidade = req.params.id_unidade
+    const unidade = req.params.unidade_params
     Nota.findAll({where: {unidade: unidade}}).then((nota) => {
     if(nota){
         res.status(HttpStatus.OK).json(nota).send()
@@ -46,8 +51,9 @@ export let getAllNotasUnidade = (req, res) => {
 }
 
 export let editarNota = (req, res) => {
-    const idNota = req.params.id_nota
-    Nota.findById(idNota).then((nota) => {
+    const bimestre = req.body.bimestre_params
+    const unidade = req.body.unidade_params
+    Nota.findOne({where: {bimestre: bimestre, unidade: unidade}}).then((nota) => {
         if(nota){
             const nota = req.body.nota
             const data = {nota: nota}
@@ -63,8 +69,9 @@ export let editarNota = (req, res) => {
 }
 
 export let excluirNota = (req, res) => {
-    const idNota = req.params.id_nota
-    Nota.findById(idNota).then((nota) => {
+    const bimestre = req.body.bimestre
+    const unidade = req.body.unidade
+    Nota.findOne({where: {bimestre: bimestre, unidade: unidade}}).then((nota) => {
         if(nota){
             nota.destroy().then((nota) => {
                 res.status(HttpStatus.OK).json(nota).send()

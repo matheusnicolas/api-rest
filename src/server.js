@@ -33,6 +33,6 @@ app.use('/api/frequencia', frequenciaRoutes)
 app.use(expressValidator)
 
 
-app.listen(9000, () => {
+app.listen(4000, () => {
     console.log('Servidor rodando na porta 9000')
 })

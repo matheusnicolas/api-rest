@@ -7,14 +7,14 @@ router.route('/')
     .post(controller.cadastrarNota)
     .get(controller.getAllNotas)
 
-router.route('/:id_nota')
-    .put(controller.editarNota)
-    .delete(controller.excluirNota)
-
-router.route('/:id_bimestre')
+router.route('/bimestre/:bimestre_params')
     .get(controller.getAllNotasBimestre)
 
-router.route('/:id_unidade')
+router.route('/unidade/:unidade_params')
     .get(controller.getAllNotasUnidade)
+
+router.route('/:bimestre_params/:unidade_params')
+    .put(controller.editarNota)
+    .delete(controller.excluirNota)
 
 export default router;
