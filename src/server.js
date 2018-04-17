@@ -7,6 +7,7 @@ import atividadeRoutes from './routes/atividadeRoutes'
 import turmaRoutes from './routes/turmaRoutes'
 import professorRoutes from './routes/professorRoutes'
 import notaRoutes from './routes/notaRoutes'
+import frequenciaRoutes from './routes/frequenciaRoutes'
 
 import bodyParser from 'body-parser'
 import expressValidator from 'express-validator';
@@ -27,6 +28,7 @@ app.use('/api/atividades',atividadeRoutes)
 app.use('/api/turma', turmaRoutes)
 app.use('/api/professor', professorRoutes)
 app.use('/api/nota', notaRoutes)
+app.use('/api/frequencia', frequenciaRoutes)
 
 app.use(expressValidator)
 
