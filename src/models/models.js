@@ -1,17 +1,17 @@
 import Sequelize from 'sequelize'
 
-// let sequelize = new Sequelize('kula_bd', null, null, {
-//     host: 'localhost',
-//     dialect: 'sqlite',
-//     storage: './data.sqlite'
-// });
-
-let sequelize = new Sequelize('kula_bd', 'kula', 'kula123456', {
+let sequelize = new Sequelize('kula_bd', null, null, {
     host: 'localhost',
-    port: '5432',
-    dialect: 'postgres',
-    operatorsAliases: false
+    dialect: 'sqlite',
+    storage: './data.sqlite'
 });
+
+// let sequelize = new Sequelize('kula_bd', 'kula', 'kula123456', {
+//     host: 'localhost',
+//     port: '5432',
+//     dialect: 'postgres',
+//     operatorsAliases: false
+// });
 
 export let User = sequelize.define('user', {
     id : { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true
