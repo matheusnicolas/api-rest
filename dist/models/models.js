@@ -39,18 +39,8 @@ var User = exports.User = sequelize.define('user', {
 });
 
 var Professor = exports.Professor = sequelize.define('professor', {
-    nome: _sequelize2.default.STRING,
-    sobrenome: _sequelize2.default.STRING,
-    cpf: _sequelize2.default.STRING,
-    username: _sequelize2.default.STRING,
-    password: _sequelize2.default.STRING,
     id: { type: _sequelize2.default.INTEGER, primaryKey: true, autoIncrement: true
-    },
-    matricula: _sequelize2.default.STRING,
-    sexo: _sequelize2.default.STRING,
-    email: _sequelize2.default.STRING,
-    disciplina: _sequelize2.default.STRING,
-    foto: _sequelize2.default.STRING(512)
+    }
 });
 
 var Turma = exports.Turma = sequelize.define('turma', {
@@ -147,6 +137,8 @@ AtividadeResposta.belongsTo(User, { foreignKey: 'alunoId' });
 AtividadeResposta.belongsTo(Atividade, { foreignKey: 'atividadeId' });
 
 Turma.belongsTo(Sala, { foreignKey: 'salaId' });
+
+Professor.belongsTo(User, { foreignKey: 'userId' });
 
 User.sync();
 Professor.sync();

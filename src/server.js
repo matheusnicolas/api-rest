@@ -7,6 +7,8 @@ import atividadeRoutes from './routes/atividadeRoutes'
 import turmaRoutes from './routes/turmaRoutes'
 import professorRoutes from './routes/professorRoutes'
 import notaRoutes from './routes/notaRoutes'
+import horario from './routes/horarioRoutes'
+import professorDisc from './routes/profDiscRoutes'
 
 import bodyParser from 'body-parser'
 import expressValidator from 'express-validator';
@@ -27,10 +29,13 @@ app.use('/api/atividades',atividadeRoutes)
 app.use('/api/turma', turmaRoutes)
 app.use('/api/professor', professorRoutes)
 app.use('/api/nota', notaRoutes)
+app.use('/api/horario', horario)
+app.use('/api/profdisc', professorDisc)
+
 
 app.use(expressValidator)
 
 
-app.listen(4000, () => {
+app.listen(7000, () => {
     console.log('Servidor rodando na porta 9000')
 })

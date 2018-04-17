@@ -28,18 +28,8 @@ export let User = sequelize.define('user', {
 });
 
 export let Professor = sequelize.define('professor', {
-    nome : Sequelize.STRING,
-    sobrenome : Sequelize.STRING,
-    cpf : Sequelize.STRING,
-    username : Sequelize.STRING,
-    password : Sequelize.STRING,
     id : { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true
-    },
-    matricula : Sequelize.STRING,
-    sexo : Sequelize.STRING,
-    email: Sequelize.STRING,
-    disciplina: Sequelize.STRING,
-    foto: Sequelize.STRING(512)
+    }
 });
 
 export let Turma = sequelize.define('turma', {
@@ -138,6 +128,8 @@ AtividadeResposta.belongsTo(User, {foreignKey: 'alunoId'});
 AtividadeResposta.belongsTo(Atividade, {foreignKey: 'atividadeId'});
 
 Turma.belongsTo(Sala, {foreignKey: 'salaId'});
+
+Professor.belongsTo(User, {foreignKey: 'userId'});
 
 User.sync();
 Professor.sync(); 

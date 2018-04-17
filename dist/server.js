@@ -36,6 +36,14 @@ var _notaRoutes = require('./routes/notaRoutes');
 
 var _notaRoutes2 = _interopRequireDefault(_notaRoutes);
 
+var _horarioRoutes = require('./routes/horarioRoutes');
+
+var _horarioRoutes2 = _interopRequireDefault(_horarioRoutes);
+
+var _profDiscRoutes = require('./routes/profDiscRoutes');
+
+var _profDiscRoutes2 = _interopRequireDefault(_profDiscRoutes);
+
 var _bodyParser = require('body-parser');
 
 var _bodyParser2 = _interopRequireDefault(_bodyParser);
@@ -62,9 +70,11 @@ app.use('/api/atividades', _atividadeRoutes2.default);
 app.use('/api/turma', _turmaRoutes2.default);
 app.use('/api/professor', _professorRoutes2.default);
 app.use('/api/nota', _notaRoutes2.default);
+app.use('/api/horario', _horarioRoutes2.default);
+app.use('/api/profdisc', _profDiscRoutes2.default);
 
 app.use(_expressValidator2.default);
 
-app.listen(4000, function () {
+app.listen(7000, function () {
     console.log('Servidor rodando na porta 9000');
 });
