@@ -10,13 +10,14 @@ import notaRoutes from './routes/notaRoutes'
 import horario from './routes/horarioRoutes'
 import professorDisc from './routes/profDiscRoutes'
 import frequenciaRoutes from './routes/frequenciaRoutes'
-
+import cors from 'cors'
 
 import bodyParser from 'body-parser'
 import expressValidator from 'express-validator';
 
 const app = express();
 
+app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 

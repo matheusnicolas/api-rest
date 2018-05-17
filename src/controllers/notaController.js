@@ -50,28 +50,41 @@ export let getAllNotasUnidade = (req, res) => {
     })
 }
 
+export let getNotaPeloId = (req, res) => {
+    const notaId =  req.params.nota_id
+    Nota.findById(notaId).then((nota) => {
+        if(nota){
+            res.status(HttpStatus.OK).json(nota).send()
+        }else{
+            res.status(HttpStatus.NOT_FOUND).json(exceptions.responseNotFoundNota()).send()
+        }
+    });
+}
+
 export let editarNota = (req, res) => {
-    const bimestre = req.body.bimestre_params
-    const unidade = req.body.unidade_params
-    Nota.findOne({where: {bimestre: bimestre, unidade: unidade}}).then((nota) => {
+    Nota.findById(req.params.nota_id).then((nota) => {
         if(nota){
             const nota = req.body.nota
-            const data = {nota: nota}
+            const unidade = req.body.unidade
+            const bimestre = req.body.bimestre
+            const data = {nota: nota, unidade: unidade, bimestre: bimestre}
             nota.update(data).then((nota) => {
                 res.status(HttpStatus.OK).json(nota).send()
             }).catch((erro) => {
-                res.status(HttpStatus.BAD_REQUEST).send()
+                res.status(HttpStatus.BAD_REQUEST)
+                    .json(responseErroCatch(HttpStatus.BAD_REQUEST))
+                    .send()
             })
+           
         }else{
-            res.status(HttpStatus.NOT_FOUND).json(exceptions.responseNotFoundNota()).send()
+            res.status(HttpStatus.NOT_FOUND).json(exceptions.responseNotFoundNota).send()
         }
     })
 }
 
 export let excluirNota = (req, res) => {
-    const bimestre = req.body.bimestre
-    const unidade = req.body.unidade
-    Nota.findOne({where: {bimestre: bimestre, unidade: unidade}}).then((nota) => {
+    const id = req.params.nota_id
+    Nota.findById(id).then((nota) => {
         if(nota){
             nota.destroy().then((nota) => {
                 res.status(HttpStatus.OK).json(nota).send()
