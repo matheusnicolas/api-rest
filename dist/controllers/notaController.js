@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.excluirNota = exports.editarNota = exports.getAllNotasUnidade = exports.getAllNotasBimestre = exports.cadastrarNota = exports.getAllNotas = undefined;
+exports.excluirNota = exports.editarNota = exports.getNotaPeloId = exports.getAllNotasUnidade = exports.getAllNotasBimestre = exports.cadastrarNota = exports.getAllNotas = undefined;
 
 var _express = require('express');
 
@@ -69,28 +69,38 @@ var getAllNotasUnidade = exports.getAllNotasUnidade = function getAllNotasUnidad
     });
 };
 
-var editarNota = exports.editarNota = function editarNota(req, res) {
-    var bimestre = req.body.bimestre_params;
-    var unidade = req.body.unidade_params;
-    _models.Nota.findOne({ where: { bimestre: bimestre, unidade: unidade } }).then(function (nota) {
+var getNotaPeloId = exports.getNotaPeloId = function getNotaPeloId(req, res) {
+    var notaId = req.params.nota_id;
+    _models.Nota.findById(notaId).then(function (nota) {
         if (nota) {
-            var _nota = req.body.nota;
-            var data = { nota: _nota };
-            _nota.update(data).then(function (nota) {
-                res.status(_httpStatusCodes2.default.OK).json(nota).send();
-            }).catch(function (erro) {
-                res.status(_httpStatusCodes2.default.BAD_REQUEST).send();
-            });
+            res.status(_httpStatusCodes2.default.OK).json(nota).send();
         } else {
             res.status(_httpStatusCodes2.default.NOT_FOUND).json(exceptions.responseNotFoundNota()).send();
         }
     });
 };
 
+var editarNota = exports.editarNota = function editarNota(req, res) {
+    _models.Nota.findById(req.params.nota_id).then(function (nota) {
+        if (nota) {
+            var _nota = req.body.nota;
+            var unidade = req.body.unidade;
+            var bimestre = req.body.bimestre;
+            var data = { nota: _nota, unidade: unidade, bimestre: bimestre };
+            nota.update(data).then(function (nota) {
+                res.status(_httpStatusCodes2.default.OK).json(nota).send();
+            }).catch(function (erro) {
+                res.status(_httpStatusCodes2.default.BAD_REQUEST).json(responseErroCatch(_httpStatusCodes2.default.BAD_REQUEST)).send();
+            });
+        } else {
+            res.status(_httpStatusCodes2.default.NOT_FOUND).json(exceptions.responseNotFoundNota).send();
+        }
+    });
+};
+
 var excluirNota = exports.excluirNota = function excluirNota(req, res) {
-    var bimestre = req.body.bimestre;
-    var unidade = req.body.unidade;
-    _models.Nota.findOne({ where: { bimestre: bimestre, unidade: unidade } }).then(function (nota) {
+    var id = req.params.nota_id;
+    _models.Nota.findById(id).then(function (nota) {
         if (nota) {
             nota.destroy().then(function (nota) {
                 res.status(_httpStatusCodes2.default.OK).json(nota).send();
