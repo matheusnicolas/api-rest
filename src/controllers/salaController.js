@@ -1,14 +1,18 @@
 import express from 'express'
 import HttpStatus from 'http-status-codes'
-import {Sala} from '../models/models'
+import {Sala, Turma} from '../models/models'
 import * as exceptions from '../exceptions/salaExceptions'
 
 let router = express.Router()
 
 export let cadastrarSala = (req, res) => {
-    const data = req.body
-    Sala.create(req.body).then((sala) => {
-        res.status(HttpStatus.CREATED).json(sala).send()
+    const data = {numero: req.body.numero, capacidade: req.body.capacidade}
+    Sala.create(data).then((sala) => {
+        Turma.findById(req.body.turma).then((turma) =>{
+            turma.update({salaId:sala.numero}).then(() =>{
+                res.status(HttpStatus.CREATED).json(turma).send()
+            })
+        })
     }).catch((erro) => {
         res.status(HttpStatus.BAD_REQUEST)
             .json(exceptions.responseErroCatch(HttpStatus.BAD_REQUEST))

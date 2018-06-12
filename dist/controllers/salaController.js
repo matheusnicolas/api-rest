@@ -26,9 +26,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var router = _express2.default.Router();
 
 var cadastrarSala = exports.cadastrarSala = function cadastrarSala(req, res) {
-    var data = req.body;
-    _models.Sala.create(req.body).then(function (sala) {
-        res.status(_httpStatusCodes2.default.CREATED).json(sala).send();
+    var data = { numero: req.body.numero, capacidade: req.body.capacidade };
+    _models.Sala.create(data).then(function (sala) {
+        _models.Turma.findById(req.body.turma).then(function (turma) {
+            turma.update({ salaId: sala.numero }).then(function () {
+                res.status(_httpStatusCodes2.default.CREATED).json(turma).send();
+            });
+        });
     }).catch(function (erro) {
         res.status(_httpStatusCodes2.default.BAD_REQUEST).json(exceptions.responseErroCatch(_httpStatusCodes2.default.BAD_REQUEST)).send();
     });
