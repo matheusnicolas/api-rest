@@ -87,7 +87,7 @@ var editarNota = exports.editarNota = function editarNota(req, res) {
             var unidade = req.body.unidade;
             var bimestre = req.body.bimestre;
             var data = { nota: _nota, unidade: unidade, bimestre: bimestre };
-            nota.update(data).then(function (nota) {
+            _nota.update(data).then(function (nota) {
                 res.status(_httpStatusCodes2.default.OK).json(nota).send();
             }).catch(function (erro) {
                 res.status(_httpStatusCodes2.default.BAD_REQUEST).json(responseErroCatch(_httpStatusCodes2.default.BAD_REQUEST)).send();

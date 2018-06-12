@@ -16,11 +16,17 @@ export let profile = (req, res) => {
 
 export let login = (req, res) => {
     User.findOne({where: {username: req.body.username}}).then((user) => {
-        if(req.body.password == user.get({plain:true}).password){
-            const token = jwt.sign(user.get({plain:true}), auth.SECRET_ENCODING_MESSAGE)
-            res.status(HttpStatus.OK).json({message: 'usuário autenticado', token: token}).send()
-        }else{
-            console.log('password incorreto')
+        if(user){
+            console.log(user.get({plain: true}))
+            bcrypt.compare(req.body.password, user.get({plain:true}).password).then((result) => {
+                console.log(result)
+                if(result){
+                    const token = jwt.sign(user.get({plain:true}), auth.SECRET_ENCODING_MESSAGE)
+                    res.status(HttpStatus.OK).json({message: 'usuário autenticado', token: token}).send()    
+                }else{
+                    res.status(HttpStatus.BAD_REQUEST).json({message: 'username ou senha incorreto(s)'}).send()    
+                }
+            })
         }
         console.log('passou pelo if e else')
     })
@@ -78,28 +84,42 @@ export let getUserById = ((req, res) => {
 });
 
 export let editarUser = ((req, res) => {
-    User.findById(req.params.user_id).then(user => {
-        if(user){
-            let foto = salvarFotoUsuario(req.body.foto, user.username)
-            user.update({
-                nome: req.body.nome,
-                sobrenome: req.body.sobrenome,
-                cpf: req.body.cpf,
-                username: req.body.username,
-                password: req.body.password,
-                id: req.body.id,
-                matricula: req.body.matricula,
-                sexo: req.body.sexo,
-                email: req.body.email,
-                foto: foto
-            }).then(() => {
-                res.json(user);
-            }).catch (erro =>{
-                res.status(250).json({erro: erro.errors[0].path});
-            });
-        }else{
-            res.json({erro: 'Usuário não existe'})
-        }
+    const nome = req.body.nome;
+    const sobrenome = req.body.sobrenome;
+    const cpf = req.body.cpf;
+    const username = req.body.username;
+    const password = req.body.password;
+    const matricula = req.body.matricula;
+    const sexo = req.body.sexo;
+    const email = req.body.email;
+    const dataValidacao = {nome:nome, 
+                            sobrenome:sobrenome, 
+                            cpf:cpf, 
+                            username:username, 
+                            matricula:matricula, 
+                            sexo:sexo, 
+                            email:email};
+    
+    bcrypt.hash(req.body.password, 12).then(result => {
+        const data = {nome:nome, sobrenome:sobrenome, cpf:cpf, username:username, password:result, matricula:matricula, sexo:sexo, email:email};
+        User.findById(req.params.user_id).then((user) => {
+            if(user){
+                user.update(data).then(user => {
+                    const token = jwt.sign(user.get({plain:true}), auth.SECRET_ENCODING_MESSAGE)
+                    if(req.body.foto){
+                        console.log("tem foto");   
+                        let foto = salvarFotoUsuario(req.body.foto, user.username)
+                        user.update({foto:foto}).then((user) => {
+                            res.status(HttpStatus.OK).json({user: user, token: token});
+                        });
+                    }else{
+                        res.status(HttpStatus.OK).json({user: user, token: token});
+                    }
+                })
+            }
+        }).catch (erro =>{
+            res.status(HttpStatus.BAD_REQUEST).json({erro: erro});
+        });
     });
 });
 

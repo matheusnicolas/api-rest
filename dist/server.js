@@ -48,6 +48,10 @@ var _frequenciaRoutes = require('./routes/frequenciaRoutes');
 
 var _frequenciaRoutes2 = _interopRequireDefault(_frequenciaRoutes);
 
+var _authRoutes = require('./routes/authRoutes');
+
+var _authRoutes2 = _interopRequireDefault(_authRoutes);
+
 var _cors = require('cors');
 
 var _cors2 = _interopRequireDefault(_cors);
@@ -73,6 +77,7 @@ app.use('/static', _express2.default.static('public'));
 
 app.use('/', _routes2.default);
 app.use('/api/salas', _salaRoutes2.default);
+app.use('/api/login', _authRoutes2.default);
 app.use('/api/users', _userRoutes2.default);
 app.use('/api/disciplina', _disciplinaRoutes2.default);
 app.use('/api/atividades', _atividadeRoutes2.default);
@@ -85,6 +90,6 @@ app.use('/api/frequencia', _frequenciaRoutes2.default);
 
 app.use(_expressValidator2.default);
 
-app.listen(7000, function () {
+app.listen(9000, function () {
     console.log('Servidor rodando na porta 9000');
 });

@@ -1,14 +1,14 @@
 import express from 'express'
 import * as controller from '../controllers/userController'
+import * as middleware from '../middlewares/auth'
 
 let router = express.Router()
+
+router.use(middleware.auth)
 
 router.route("/")
     .get(controller.getUser)
     .post(controller.cadastrarUser)
-
-router.route('/login')
-    .post(controller.login)
 
 router.route('/profile')
     .get(controller.profile)

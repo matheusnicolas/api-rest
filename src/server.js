@@ -10,6 +10,7 @@ import notaRoutes from './routes/notaRoutes'
 import horario from './routes/horarioRoutes'
 import professorDisc from './routes/profDiscRoutes'
 import frequenciaRoutes from './routes/frequenciaRoutes'
+import authRoutes from './routes/authRoutes'
 import cors from 'cors'
 
 import bodyParser from 'body-parser'
@@ -26,6 +27,7 @@ app.use('/static',express.static('public'))
 
 app.use('/', routes);
 app.use('/api/salas', salaRoutes)
+app.use('/api/login', authRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/disciplina', disciplinaRoutes)
 app.use('/api/atividades',atividadeRoutes)
@@ -39,6 +41,6 @@ app.use('/api/frequencia', frequenciaRoutes)
 app.use(expressValidator)
 
 
-app.listen(7000, () => {
+app.listen(9000, () => {
     console.log('Servidor rodando na porta 9000')
 })

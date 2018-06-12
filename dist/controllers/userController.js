@@ -42,11 +42,17 @@ var profile = exports.profile = function profile(req, res) {
 
 var login = exports.login = function login(req, res) {
     _models.User.findOne({ where: { username: req.body.username } }).then(function (user) {
-        if (req.body.password == user.get({ plain: true }).password) {
-            var token = _jsonwebtoken2.default.sign(user.get({ plain: true }), auth.SECRET_ENCODING_MESSAGE);
-            res.status(_httpStatusCodes2.default.OK).json({ message: 'usuário autenticado', token: token }).send();
-        } else {
-            console.log('password incorreto');
+        if (user) {
+            console.log(user.get({ plain: true }));
+            _bcrypt2.default.compare(req.body.password, user.get({ plain: true }).password).then(function (result) {
+                console.log(result);
+                if (result) {
+                    var token = _jsonwebtoken2.default.sign(user.get({ plain: true }), auth.SECRET_ENCODING_MESSAGE);
+                    res.status(_httpStatusCodes2.default.OK).json({ message: 'usuário autenticado', token: token }).send();
+                } else {
+                    res.status(_httpStatusCodes2.default.BAD_REQUEST).json({ message: 'username ou senha incorreto(s)' }).send();
+                }
+            });
         }
         console.log('passou pelo if e else');
     });
@@ -104,28 +110,42 @@ var getUserById = exports.getUserById = function getUserById(req, res) {
 };
 
 var editarUser = exports.editarUser = function editarUser(req, res) {
-    _models.User.findById(req.params.user_id).then(function (user) {
-        if (user) {
-            var foto = salvarFotoUsuario(req.body.foto, user.username);
-            user.update({
-                nome: req.body.nome,
-                sobrenome: req.body.sobrenome,
-                cpf: req.body.cpf,
-                username: req.body.username,
-                password: req.body.password,
-                id: req.body.id,
-                matricula: req.body.matricula,
-                sexo: req.body.sexo,
-                email: req.body.email,
-                foto: foto
-            }).then(function () {
-                res.json(user);
-            }).catch(function (erro) {
-                res.status(250).json({ erro: erro.errors[0].path });
-            });
-        } else {
-            res.json({ erro: 'Usuário não existe' });
-        }
+    var nome = req.body.nome;
+    var sobrenome = req.body.sobrenome;
+    var cpf = req.body.cpf;
+    var username = req.body.username;
+    var password = req.body.password;
+    var matricula = req.body.matricula;
+    var sexo = req.body.sexo;
+    var email = req.body.email;
+    var dataValidacao = { nome: nome,
+        sobrenome: sobrenome,
+        cpf: cpf,
+        username: username,
+        matricula: matricula,
+        sexo: sexo,
+        email: email };
+
+    _bcrypt2.default.hash(req.body.password, 12).then(function (result) {
+        var data = { nome: nome, sobrenome: sobrenome, cpf: cpf, username: username, password: result, matricula: matricula, sexo: sexo, email: email };
+        _models.User.findById(req.params.user_id).then(function (user) {
+            if (user) {
+                user.update(data).then(function (user) {
+                    var token = _jsonwebtoken2.default.sign(user.get({ plain: true }), auth.SECRET_ENCODING_MESSAGE);
+                    if (req.body.foto) {
+                        console.log("tem foto");
+                        var foto = salvarFotoUsuario(req.body.foto, user.username);
+                        user.update({ foto: foto }).then(function (user) {
+                            res.status(_httpStatusCodes2.default.OK).json({ user: user, token: token });
+                        });
+                    } else {
+                        res.status(_httpStatusCodes2.default.OK).json({ user: user, token: token });
+                    }
+                });
+            }
+        }).catch(function (erro) {
+            res.status(_httpStatusCodes2.default.BAD_REQUEST).json({ erro: erro });
+        });
     });
 };
 
